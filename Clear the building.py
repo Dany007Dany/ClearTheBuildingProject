@@ -19,15 +19,15 @@ schermo = pygame.display.set_mode(dimensioni)
 colore_sfondo_1 = (0, 0, 0)
 sfondo = colore_sfondo_1
 pygame.display.set_caption("Clear the Building!")
-prog_icon = pygame.image.load("/Users/dany/Downloads/PyGame/CtB images/Icona_Stivale.png")
+prog_icon = pygame.image.load("/Users/dany/Downloads/CtB images/Icona_Stivale.png")
 
 pygame.display.set_icon(prog_icon)
 
 
 #personaggio principale
-perc_p1 = "/Users/dany/Downloads/PyGame/CtB images/P1.png"
+perc_p1 = "/Users/dany/Downloads/CtB images/P1.png"
 image_p1 = pygame.image.load(perc_p1)
-image_p1 = pygame.transform.scale(image_p1, (70, 50))
+image_p1 = pygame.transform.scale(image_p1, (80, 80))
 image_p1.convert_alpha()
 
 
