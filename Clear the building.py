@@ -1,6 +1,8 @@
 import pygame
 from sys import exit
-
+from Classi_Giocatore_e_Bot import Giocatore
+from Classi_Giocatore_e_Bot import Bot
+from Classi_Giocatore_e_Bot import CampoVisivo
 
 pygame.init()
 
@@ -23,26 +25,45 @@ prog_icon = pygame.image.load("/Users/dany/Downloads/CtB images/Icona_Stivale.pn
 
 pygame.display.set_icon(prog_icon)
 
-
-#personaggio principale
-perc_p1 = "/Users/dany/Downloads/CtB images/P1.png"
-image_p1 = pygame.image.load(perc_p1)
-image_p1 = pygame.transform.scale(image_p1, (80, 80))
-image_p1.convert_alpha()
-
-
-
-
-
-
+#creazione del giocatore
+Giocatore1 = Giocatore(x = 1500, y = 900)
+Giocatore2 = Giocatore(x = 600, y = 900)
+#creazione bot
+Bot1 = Bot(x = 300, y = 300)
+Bot2 = Bot(x = 400, y = 1000)
+Bot3 = Bot(x = 1300, y = 400)
+Bot4 = Bot(x = 600, y = 700)
+#ciclo principale
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
 
+    #modifiche e movimento ai Giocatori        
+    Giocatore1.mov()
+    #modifiche e movimento dei Bot
+    
+    #aggiornamento schermo
+    schermo.fill(sfondo)
+    
+    #blit dei bot
+    Bot1.dis_bot(schermo)
+    
+    Bot4.dis_bot_ruotato0(schermo)
+    #Bot2.dis_bot_morto(schermo)
+
+
+    #blit del campo al Bot1
+    Bot1.inserisci_campo_visivo0(schermo)
+    Bot4.inserisci_campo_visivo_ruotato270(schermo)
     #blit del personaggio
-    schermo.blit(image_p1, (0, 0))
+    Giocatore1.dis_pers(schermo)
+    
+
+    #aggiornamenti vari e eventuali 
     pygame.display.flip()
     pygame.display.update()
-    clock.tick
+    clock.tick(60)
+
+
