@@ -32,37 +32,52 @@ class Bot:
     def __init__(self, x, y) -> None:
         self.immagine_vivo = pygame.image.load("/Users/dany/Downloads/CtB images/Bot_vivo.png")
         self.immagine_vivo = pygame.transform.scale(self.immagine_vivo, (80, 80))
-        self.immagine_vivo_270 = pygame.transform.rotate(self.immagine_vivo, 90)
-        self.rect_vivo_270 = self.immagine_vivo_270.get_rect()
-        self.immagine_vivo_270 = pygame.transform.rotate(self.immagine_vivo, -90)
-        self.rect_vivo_90 = self.immagine_vivo_270.get_rect()
-        self.immagine_morto = pygame.image.load("/Users/dany/Downloads/CtB images/Bot_morto.png")
-        self.immagine_morto = pygame.transform.scale(self.immagine_morto, (80, 80))
         self.rect_vivo = self.immagine_vivo.get_rect()
         self.rect_vivo.x = x
         self.rect_vivo.y = y
+        
+        self.immagine_vivo_90 = pygame.transform.rotate(self.immagine_vivo, -90)
+        self.rect_vivo_90 = self.immagine_vivo_90.get_rect()
+        self.rect_vivo_90.x = x
+        self.rect_vivo_90.y = y
+        self.rect_vivo_90.center = (x, y)
+
+        self.immagine_vivo_180 = pygame.transform.rotate(self.immagine_vivo, 180)
+        self.rect_vivo_180 = self.immagine_vivo_180.get_rect()
+        self.rect_vivo_180.x = x
+        self.rect_vivo_180.y = y
+        self.rect_vivo_180.center = (x, y)
+
+        self.immagine_vivo_270 = pygame.transform.rotate(self.immagine_vivo, 90)
+        self.rect_vivo_270 = self.immagine_vivo_270.get_rect()
+        self.rect_vivo_270.x = x
+        self.rect_vivo_270.y = y
+        self.rect_vivo_270.center = (x, y)
+        
+        self.immagine_morto = pygame.image.load("/Users/dany/Downloads/CtB images/Bot_morto.png")
+        self.immagine_morto = pygame.transform.scale(self.immagine_morto, (80, 80))
         self.rect_morto = self.immagine_morto.get_rect()
         self.rect_morto.x = x
         self.rect_morto.y = y
-        self.rect_vivo.center = (x, y)
-        self.rect_vivo.center = (x, y)
-        self.rect_vivo_90.x = x
-        self.rect_vivo_90.y = y
-        self.rect_vivo_270.x = x
-        self.rect_vivo_270.y = y
+        
+        
+        
+        
 
         self.campo_visivo = CampoVisivo(x, y)
 
-    def dis_bot(self, schermo):
+    def dis_bot_ruotato0(self, schermo):
         schermo.blit(self.immagine_vivo, self.rect_vivo)
     
-    def dis_bot_ruotato0(self, schermo):
+    def dis_bot_ruotato90(self, schermo):
+        schermo.blit(self.immagine_vivo_90, self.rect_vivo_90)
+
+    def dis_bot_ruotato_180(self, schermo):
+        schermo.blit(self.immagine_vivo_180, self.rect_vivo_180)
+    
+    def dis_bot_ruotato270(self, schermo):
         schermo.blit(self.immagine_vivo_270, self.rect_vivo_270)
-
- 
-    def dis_bot_morto(self, schermo):
-        schermo.blit(self.immagine_morto, self.rect_morto)
-
+    
     def inserisci_campo_visivo0(self, schermo):
         sup = pygame.surface.Surface((80, 80))
         sup.fill("Red")
@@ -74,6 +89,12 @@ class Bot:
         sup.fill("Red")
         sup_rect = sup.get_rect(midleft = (self.rect_vivo_90.midright))
         schermo.blit(sup, sup_rect)
+
+    def inserisci_campo_visivo180(self, schermo):
+        sup = pygame.surface.Surface((80, 80))
+        sup.fill("Red")
+        sup_rect = sup.get_rect(midtop = (self.rect_vivo_180.midbottom))
+        schermo.blit(sup, sup_rect)
     
     def inserisci_campo_visivo_ruotato270(self, schermo):
         sup = pygame.surface.Surface((80, 80))
@@ -81,7 +102,8 @@ class Bot:
         sup_rect = sup.get_rect(midright = (self.rect_vivo_270.midleft))
         schermo.blit(sup, sup_rect)
         
-        
+    def dis_bot_morto(self, schermo):
+        schermo.blit(self.immagine_morto, self.rect_morto)
 
 class CampoVisivo:
     def __init__(self, x, y) -> None:

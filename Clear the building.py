@@ -30,7 +30,7 @@ Giocatore1 = Giocatore(x = 1500, y = 900)
 Giocatore2 = Giocatore(x = 600, y = 900)
 #creazione bot
 Bot1 = Bot(x = 300, y = 300)
-Bot2 = Bot(x = 400, y = 1000)
+Bot2 = Bot(x = 1400, y = 600)
 Bot3 = Bot(x = 1300, y = 400)
 Bot4 = Bot(x = 600, y = 700)
 #ciclo principale
@@ -48,14 +48,17 @@ while True:
     schermo.fill(sfondo)
     
     #blit dei bot
-    Bot1.dis_bot(schermo)
-    
-    Bot4.dis_bot_ruotato0(schermo)
+    Bot1.dis_bot_ruotato0(schermo)
+    Bot2.dis_bot_ruotato90(schermo)
+    Bot3.dis_bot_ruotato_180(schermo)
+    Bot4.dis_bot_ruotato270(schermo)
     #Bot2.dis_bot_morto(schermo)
 
 
     #blit del campo al Bot1
     Bot1.inserisci_campo_visivo0(schermo)
+    Bot2.inserisci_campo_visivo90(schermo)
+    Bot3.inserisci_campo_visivo180(schermo)
     Bot4.inserisci_campo_visivo_ruotato270(schermo)
     #blit del personaggio
     Giocatore1.dis_pers(schermo)
