@@ -62,7 +62,6 @@ while True:
     Bot4.inserisci_campo_visivo_ruotato270(schermo)
     #blit del personaggio
     Giocatore1.dis_pers(schermo)
-    
 
     #aggiornamenti vari e eventuali 
     pygame.display.flip()
