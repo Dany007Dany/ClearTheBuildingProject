@@ -56,7 +56,18 @@ class Giocatore:
         if tastiera[pygame.K_s]:
             self.rect.y += self.vel_gioc
             self.immagine = self.immagine_ruotata_180
+
+    def collisioni(self, bots, schermo, testo_you_lost_render, pos_testo_you_lost):
+        for bot in bots:
+            if self.rect.colliderect(bot.campo_visivo.rect):
+                print("Collisione")
+                schermo.fill("Black")
+                schermo.blit(testo_you_lost_render, pos_testo_you_lost)
+                return True
+
+                
             
+                
 
 
 
@@ -67,6 +78,8 @@ class Bot:
         self.rect_vivo = self.immagine_vivo.get_rect()
         self.rect_vivo.x = x
         self.rect_vivo.y = y
+        
+        self.campo_visivo = CampoVisivo(x, y)
         
         self.immagine_vivo_90 = pygame.transform.rotate(self.immagine_vivo, -90)
         self.rect_vivo_90 = self.immagine_vivo_90.get_rect()
@@ -91,12 +104,9 @@ class Bot:
         self.rect_morto = self.immagine_morto.get_rect()
         self.rect_morto.x = x
         self.rect_morto.y = y
-        
-        
-        
+
         
 
-        self.campo_visivo = CampoVisivo(x, y)
 
     def dis_bot_ruotato0(self, schermo):
         schermo.blit(self.immagine_vivo, self.rect_vivo)

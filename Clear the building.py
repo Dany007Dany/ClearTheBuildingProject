@@ -21,7 +21,7 @@ schermo = pygame.display.set_mode(dimensioni)
 colore_sfondo_1 = (0, 0, 0)
 sfondo = colore_sfondo_1
 pygame.display.set_caption("Clear the Building!")
-prog_icon = pygame.image.load("/Users/dany/Downloads/CtB images/Icona_Stivale.png")
+prog_icon = pygame.image.load("/Users/dany/Downloads/CtB images/Icona_Stivale.png").convert_alpha()
 
 pygame.display.set_icon(prog_icon)
 
@@ -33,6 +33,23 @@ Bot1 = Bot(x = 300, y = 300)
 Bot2 = Bot(x = 1400, y = 600)
 Bot3 = Bot(x = 1300, y = 400)
 Bot4 = Bot(x = 600, y = 700)
+
+#YOU LOST
+testo_you_lost = "Sei stato scoperto"
+colore_testo_iniziale = ("White")
+font_you_lost = pygame.font.Font(None, 112)
+testo_you_lost_render = font_you_lost.render(testo_you_lost, True, colore_testo_iniziale)
+pos_testo_you_lost = (500, 500)
+you_lost_visibile = False
+
+
+
+
+
+
+
+
+
 #ciclo principale
 while True:
     for event in pygame.event.get():
@@ -40,8 +57,10 @@ while True:
             pygame.quit()
             exit()
 
-    #modifiche e movimento ai Giocatori        
-    Giocatore1.mov()
+    #modifiche e movimento ai Giocatori 
+    Giocatore1.mov()       
+    
+
     #modifiche e movimento dei Bot
     
     #aggiornamento schermo
@@ -62,6 +81,7 @@ while True:
     Bot4.inserisci_campo_visivo_ruotato270(schermo)
     #blit del personaggio
     Giocatore1.dis_pers(schermo)
+    Giocatore1.collisioni([Bot1, Bot2, Bot3, Bot4], schermo, testo_you_lost_render, pos_testo_you_lost)
 
     #aggiornamenti vari e eventuali 
     pygame.display.flip()
