@@ -27,11 +27,11 @@ pygame.display.set_icon(prog_icon)
 #creazione del giocatore
 Giocatore1 = Giocatore(x = 1500, y = 900)
 #creazione bot
-Bot1 = Bot(x = 300, y = 300, orientamento = 0, x1 = 300, y1 = 220)
-Bot2 = Bot(x = 1400, y = 600, orientamento = -90, x1 = 1480, y1 = 600)
-Bot3 = Bot(x = 1300, y = 400, orientamento = 180, x1 = 1300, y1 = 480)
-Bot4 = Bot(x = 600, y = 700, orientamento = 90, x1 = 520, y1 = 700)
-
+Bot1 = Bot(x = 300, y = 300, orientamento = 0, x1 = 300, y1 = 220, stato = False)
+Bot2 = Bot(x = 1400, y = 600, orientamento = -90, x1 = 1480, y1 = 600, stato = False)
+Bot3 = Bot(x = 1300, y = 400, orientamento = 180, x1 = 1300, y1 = 480, stato = False)
+Bot4 = Bot(x = 600, y = 700, orientamento = 90, x1 = 520, y1 = 700, stato = False)
+bots = [Bot1, Bot2, Bot3, Bot4]
 #YOU LOST
 testo_you_lost = "Sei stato scoperto"
 colore_testo_iniziale = ("White")
@@ -55,30 +55,35 @@ while True:
             pygame.quit()
             exit()
 
-    #modifiche e movimento ai Giocatori 
-    Giocatore1.mov()       
-    
+    #def collisioni(self, bots, schermo, testo_you_lost_render, pos_testo_you_lost):
 
+
+
+    #modifiche e movimento ai Giocatori 
+    Giocatore1.mov()
     #modifiche e movimento dei Bot
     
     #aggiornamento schermo
     schermo.fill(sfondo)
     
     #blit dei bot
-    Bot1.disegna(schermo, 0, True)
-    Bot2.disegna(schermo, -90, False)
-    Bot3.disegna(schermo, 180, False)
-    Bot4.disegna(schermo, 90, False)
+    Bot1.disegna(schermo, 0)
+    Bot2.disegna(schermo, -90)
+    Bot3.disegna(schermo, 180)
+    Bot4.disegna(schermo, 90)
     #Bot2.dis_bot_morto(schermo)
 
 
     #blit del personaggio
     Giocatore1.disegna(schermo)
-    Giocatore1.collisioni([Bot1, Bot2, Bot3, Bot4], schermo, testo_you_lost_render, pos_testo_you_lost)
+    for bot in bots:
+        if bot.stato == False and Giocatore1.collisioni(bot):
+            schermo.fill("Black")
+            schermo.blit(testo_you_lost_render, pos_testo_you_lost)
+    #Giocatore1.collisioni([Bot1, Bot2, Bot3, Bot4], schermo, testo_you_lost_render, pos_testo_you_lost)
 
         
     #aggiornamenti vari e eventuali 
     pygame.display.flip()
     pygame.display.update()
     clock.tick(60)
-

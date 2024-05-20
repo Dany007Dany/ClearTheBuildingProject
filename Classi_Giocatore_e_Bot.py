@@ -57,12 +57,9 @@ class Giocatore:
             self.rect.y += self.vel_gioc
             self.immagine = self.immagine_ruotata_180
 
-    def collisioni(self, bots, schermo, testo_you_lost_render, pos_testo_you_lost):
-        for bot in bots:
-            if self.rect.colliderect(bot.campo_visivo):
-                schermo.fill("Black")
-                schermo.blit(testo_you_lost_render, pos_testo_you_lost)
-                return True
+    def collisioni(self, bot):
+        return self.rect.colliderect(bot.campo_visivo)
+                
 
                 
             
@@ -71,7 +68,7 @@ class Giocatore:
 
 
 class Bot:
-    def __init__(self, x, y, orientamento, x1, y1) -> None:
+    def __init__(self, x, y, orientamento, x1, y1, stato) -> None:
         
         
         self.orientamento = orientamento
@@ -84,7 +81,7 @@ class Bot:
         self.rect_vivo.center = (x, y)
        
         self.campo_visivo = CampoVisivo(x1, y1)
-
+        self.stato = stato
         
         
         self.immagine_vivo_90 = pygame.transform.rotate(self.immagine_vivo, orientamento)
@@ -130,23 +127,31 @@ class Bot:
         self.sup_rect270 = self.sup270.get_rect(midright = (self.rect_vivo_270.midleft))
         
 
-    def disegna(self, schermo, orientamento, morto):
-        if orientamento == 0 and morto == False:
-            schermo.blit(self.immagine_vivo, self.rect_vivo)
-            schermo.blit(self.sup0, self.sup_rect0)
-        if orientamento == -90 and morto == False:
-            schermo.blit(self.immagine_vivo_90, self.rect_vivo_90)
-            schermo.blit(self.sup90, self.sup_rect90)
-        if orientamento == 180 and morto == False:
-            schermo.blit(self.immagine_vivo_180, self.rect_vivo_180)
-            schermo.blit(self.sup180, self.sup_rect180)
-        if orientamento == 90 and morto == False:
-            schermo.blit(self.immagine_vivo_270, self.rect_vivo_270)
-            schermo.blit(self.sup270, self.sup_rect270)
-        if morto == True:
+    def disegna(self, schermo, orientamento):
+        if self.stato == False:
+            if orientamento == 0:
+                schermo.blit(self.immagine_vivo, self.rect_vivo)
+                schermo.blit(self.sup0, self.sup_rect0)
+            if orientamento == -90:
+                schermo.blit(self.immagine_vivo_90, self.rect_vivo_90)
+                schermo.blit(self.sup90, self.sup_rect90)
+            if orientamento == 180:
+                schermo.blit(self.immagine_vivo_180, self.rect_vivo_180)
+                schermo.blit(self.sup180, self.sup_rect180)
+            if orientamento == 90:
+                schermo.blit(self.immagine_vivo_270, self.rect_vivo_270)
+                schermo.blit(self.sup270, self.sup_rect270)
+        elif self.stato == True:
             schermo.blit(self.immagine_morto, self.rect_morto)
-
     
+    #def ghill (self, tastiera = None):
+        #tastiera = pygame.key.get_pressed()
+        #if tastiera == [pygame.K_k]:
+        #    self.stato = True
+
+
+
+
 
 class CampoVisivo:
     def __init__(self, x, y) -> None:
