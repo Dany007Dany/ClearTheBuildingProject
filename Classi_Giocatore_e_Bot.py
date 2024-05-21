@@ -144,7 +144,7 @@ class Bot:
         elif self.stato == True:
             schermo.blit(self.immagine_morto, self.rect_morto)
     
-    #def ghill (self, tastiera = None):
+    #def kill (self, tastiera = None):
         #tastiera = pygame.key.get_pressed()
         #if tastiera == [pygame.K_k]:
         #    self.stato = True
