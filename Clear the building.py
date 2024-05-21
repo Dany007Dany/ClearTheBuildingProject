@@ -17,35 +17,26 @@ dimensioni = (larghezza, altezza)
 schermo = pygame.display.set_mode(dimensioni)
 
 #personalizzazione finestra
-colore_sfondo_1 = ("Black")
-sfondo = colore_sfondo_1
+sfondo = ("Black")
 pygame.display.set_caption("Clear the Building!")
-prog_icon = pygame.image.load("/Users/dany/Downloads/CtB images/Icona_Stivale.png").convert_alpha()
-
+prog_icon = pygame.image.load("/Users/dany/Downloads/CtB images/Icon.png").convert_alpha()
 pygame.display.set_icon(prog_icon)
 
 #creazione del giocatore
-Giocatore1 = Giocatore(x = 1500, y = 900)
+giocatore1 = Giocatore(altezza, larghezza)
+
 #creazione bot
-Bot1 = Bot(x = 300, y = 300, orientamento = 0, x1 = 300, y1 = 220, stato = False)
-Bot2 = Bot(x = 1400, y = 600, orientamento = -90, x1 = 1480, y1 = 600, stato = False)
-Bot3 = Bot(x = 1300, y = 400, orientamento = 180, x1 = 1300, y1 = 480, stato = False)
-Bot4 = Bot(x = 600, y = 700, orientamento = 90, x1 = 520, y1 = 700, stato = False)
-bots = [Bot1, Bot2, Bot3, Bot4]
-#YOU LOST
-testo_you_lost = "Sei stato scoperto"
-colore_testo_iniziale = ("White")
-font_you_lost = pygame.font.Font(None, 112)
-testo_you_lost_render = font_you_lost.render(testo_you_lost, True, colore_testo_iniziale)
-pos_testo_you_lost = (500, 500)
-you_lost_visibile = False
+bot1 = Bot(x = 300, y = 300, orientamento = 0, stato = False)
+bot2 = Bot(x = 1400, y = 600, orientamento = -90, stato = False)
+bot3 = Bot(x = 1300, y = 400, orientamento = 180, stato = False)
+bot4 = Bot(x = 600, y = 700, orientamento = 90, stato = False)
+bots = [bot1, bot2, bot3, bot4]
 
-
-
-#vettore
-objs = [Giocatore1, Bot1, Bot2, Bot3, Bot4]
-
-
+#immagine "Sei stato scoperto!"
+SSS_immagine = pygame.image.load("/Users/dany/Downloads/CtB images/SSS.jpg").convert_alpha()
+SSS_rect = SSS_immagine.get_rect()
+SSS_pos = (larghezza // 2 - SSS_rect.width // 2, altezza // 2 - SSS_rect.height // 2 - 200)
+game_over = False
 
 
 #ciclo principale
@@ -55,34 +46,29 @@ while True:
             pygame.quit()
             exit()
 
-    #def collisioni(self, bots, schermo, testo_you_lost_render, pos_testo_you_lost):
+    #modifiche e movimento al giocatore
+    if not game_over:
+        giocatore1.mov()
 
-
-
-    #modifiche e movimento ai Giocatori 
-    Giocatore1.mov()
-    #modifiche e movimento dei Bot
-    
-    #aggiornamento schermo
+    #AGIORNAMENTO SCHERMO
     schermo.fill(sfondo)
     
-    #blit dei bot
-    Bot1.disegna(schermo, 0)
-    Bot2.disegna(schermo, -90)
-    Bot3.disegna(schermo, 180)
-    Bot4.disegna(schermo, 90)
-    #Bot2.dis_bot_morto(schermo)
-
+    if game_over:
+        schermo.fill(sfondo)
+        schermo.blit(SSS_immagine, SSS_pos)
 
     #blit del personaggio
-    Giocatore1.disegna(schermo)
-    for bot in bots:
-        if bot.stato == False and Giocatore1.collisioni(bot):
-            schermo.fill("Black")
-            schermo.blit(testo_you_lost_render, pos_testo_you_lost)
-    #Giocatore1.collisioni([Bot1, Bot2, Bot3, Bot4], schermo, testo_you_lost_render, pos_testo_you_lost)
+    giocatore1.disegna(schermo)
 
-        
+    #collisioni
+    for bot in bots:
+        if bot.stato == False and giocatore1.collisioni(bot):
+            game_over = True
+    
+    #blit dei bot
+    for bot in bots:
+        bot.disegna(schermo, giocatore1.wx, giocatore1.wy)
+    
     #aggiornamenti vari e eventuali 
     pygame.display.flip()
     pygame.display.update()
