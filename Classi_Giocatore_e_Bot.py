@@ -11,7 +11,24 @@ class Giocatore:
         self.wy = 0
 
         #immagini giocatore nelle 4 posizioni + rettangoli immagini
-        self.immagine = pygame.image.load("/Users/dany/Downloads/CtB images/Player_1.png").convert_alpha()
+        self.immagine_fermo = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Player_1.png").convert_alpha()
+        self.immagine_dx =  pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Player_2.png").convert_alpha()
+        self.immagine_dx_90 = pygame.transform.rotate(self.immagine_dx, -90)
+        self.immagine_dx_180 = pygame.transform.rotate(self.immagine_dx, 180)
+        self.immagine_dx_270 = pygame.transform.rotate(self.immagine_dx, 90)
+        self.immagine_sx =  pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Player_3.png").convert_alpha()
+        self.immagine_sx_90 = pygame.transform.rotate(self.immagine_sx, -90)
+        self.immagine_sx_180 = pygame.transform.rotate(self.immagine_sx, 180)
+        self.immagine_sx_270 = pygame.transform.rotate(self.immagine_sx, 90)
+        
+        self.lista = [self.immagine_dx, self.immagine_sx]
+        self.lista_90 = [self.immagine_dx_90, self.immagine_sx_90]
+        self.lista_180 = [self.immagine_dx_180, self.immagine_sx_180]
+        self.lista_270 = [self.immagine_dx_270, self.immagine_sx_270]
+        
+        
+        self.indice = 0
+        self.immagine = self.immagine_fermo
         self.immagine = pygame.transform.scale(self.immagine, (150, 120))
         self.rect = self.immagine.get_rect()
         self.rect.x = lSchermo // 2 - self.rect.width // 2
@@ -58,20 +75,71 @@ class Giocatore:
         if tastiera[pygame.K_a]:
             self.wx -= self.vel_gioc
             self.immagine = self.immagine_ruotata_270
+            self.angolo = 90
+            return True, self.angolo
         if tastiera[pygame.K_d]:
             self.wx += self.vel_gioc
             self.immagine = self.immagine_ruotata_90
+            self.angolo = -90
+            return True, self.angolo
         if tastiera[pygame.K_w]:
             self.wy -= self.vel_gioc
             self.immagine = self.immagine_ruotata_0
+            self.angolo = 0
+            return True, self.angolo
         if tastiera[pygame.K_s]:
             self.wy += self.vel_gioc
             self.immagine = self.immagine_ruotata_180
+            self.angolo = 180
+            return True, self.angolo
+        
+
+        
+
     
     #funzione per verificare lo stato delle collisioni del personaggio con i campi visivi
     def collisioni(self, bot):
         return self.rect.colliderect(bot.campo_rect)
+    
+    def animazione(self):
+            if self.mov():
+
+                if self.angolo == 0:
+                    self.indice += 0.05
+                    if self.indice >= len(self.lista):
+                        self.indice = 0
+                    self.immagine = self.lista[int(self.indice)]
+                    self.immagine = pygame.transform.scale(self.immagine, (150, 120))
                 
+                if self.angolo == -90:
+                    self.indice += 0.05
+                    if self.indice >= len(self.lista_90):
+                        self.indice = 0
+                    self.immagine = self.lista_90[int(self.indice)]
+                    self.immagine = pygame.transform.scale(self.immagine, (120, 130))
+
+                if self.angolo == 180:
+                    self.indice += 0.05
+                    if self.indice >= len(self.lista_180):
+                        self.indice = 0
+                    self.immagine = self.lista_180[int(self.indice)]
+                    self.immagine = pygame.transform.scale(self.immagine, (150, 120))
+
+                if self.angolo == 90:
+                    self.indice += 0.05
+                    if self.indice >= len(self.lista_270):
+                        self.indice = 0
+                    self.immagine = self.lista_270[int(self.indice)]
+                    self.immagine = pygame.transform.scale(self.immagine, (120, 130))
+            
+            
+            
+            
+            else:
+                self.immagine = self.immagine_fermo
+                self.immagine = pygame.transform.scale(self.immagine, (150, 120))
+                
+                    
 
                 
             
@@ -89,12 +157,12 @@ class Bot:
         self.orientamento = orientamento
         
         #immagini
-        self.immagine_vivo = pygame.image.load("/Users/dany/Downloads/CtB images/Bot_vivo.png").convert_alpha()
+        self.immagine_vivo = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Bot_vivo.png").convert_alpha()
         self.immagine_vivo = pygame.transform.scale(self.immagine_vivo, (100, 100))
         self.immagine_vivo_90 = pygame.transform.rotate(self.immagine_vivo, orientamento)
         self.immagine_vivo_180 = pygame.transform.rotate(self.immagine_vivo, orientamento)
         self.immagine_vivo_270 = pygame.transform.rotate(self.immagine_vivo, orientamento)
-        self.immagine_morto = pygame.image.load("/Users/dany/Downloads/CtB images/Bot_morto.png").convert_alpha()
+        self.immagine_morto = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Bot_morto.png").convert_alpha()
         self.immagine_morto = pygame.transform.scale(self.immagine_morto, (80, 80))
         
         #rettangoli
@@ -102,7 +170,7 @@ class Bot:
         self.rect_morto = self.immagine_morto.get_rect(center = (x, y))
 
         #campi visivi
-        self.campo = pygame.surface.Surface((80, 80))
+        self.campo = pygame.surface.Surface((120, 120))
         self.campo.fill("Red")
         if self.orientamento == 0:
             self.campo_rect = self.campo.get_rect(midbottom = (self.rect_vivo.midtop))

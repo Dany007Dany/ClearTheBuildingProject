@@ -5,7 +5,7 @@ from Classi_Giocatore_e_Bot import Bot
 
 pygame.init()
 
-
+ 
 #clock
 clock = pygame.time.Clock()
 
@@ -19,7 +19,7 @@ schermo = pygame.display.set_mode(dimensioni)
 #personalizzazione finestra
 sfondo = ("Black")
 pygame.display.set_caption("Clear the Building!")
-prog_icon = pygame.image.load("/Users/dany/Downloads/CtB images/Icon.png").convert_alpha()
+prog_icon = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Icon.png").convert_alpha()
 pygame.display.set_icon(prog_icon)
 
 #creazione del giocatore
@@ -33,7 +33,7 @@ bot4 = Bot(x = 600, y = 700, orientamento = 90, stato = False)
 bots = [bot1, bot2, bot3, bot4]
 
 #immagine "Sei stato scoperto!"
-SSS_immagine = pygame.image.load("/Users/dany/Downloads/CtB images/SSS.jpg").convert_alpha()
+SSS_immagine = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/SSS.jpg").convert_alpha()
 SSS_rect = SSS_immagine.get_rect()
 SSS_pos = (larghezza // 2 - SSS_rect.width // 2, altezza // 2 - SSS_rect.height // 2 - 200)
 game_over = False
@@ -49,6 +49,7 @@ while True:
     #modifiche e movimento al giocatore
     if not game_over:
         giocatore1.mov()
+        giocatore1.animazione()
 
     #AGIORNAMENTO SCHERMO
     schermo.fill(sfondo)
