@@ -11,12 +11,15 @@ class Giocatore:
         self.wy = 0
 
         #immagini giocatore nelle 4 posizioni + rettangoli immagini
-        self.immagine_fermo = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Player_1.png").convert_alpha()
-        self.immagine_dx =  pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Player_2.png").convert_alpha()
+        self.immagine_fermo = pygame.image.load("CtB images\Player_1.png").convert_alpha()
+        #self.immagine_fermo = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Player_1.png").convert_alpha()
+        self.immagine_dx =  pygame.image.load("CtB images\Player_2.png").convert_alpha()
+        #self.immagine_dx =  pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Player_2.png").convert_alpha()
         self.immagine_dx_90 = pygame.transform.rotate(self.immagine_dx, -90)
         self.immagine_dx_180 = pygame.transform.rotate(self.immagine_dx, 180)
         self.immagine_dx_270 = pygame.transform.rotate(self.immagine_dx, 90)
-        self.immagine_sx =  pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Player_3.png").convert_alpha()
+        self.immagine_sx =  pygame.image.load("CtB images\Player_3.png").convert_alpha()
+        #self.immagine_sx =  pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Player_3.png").convert_alpha()
         self.immagine_sx_90 = pygame.transform.rotate(self.immagine_sx, -90)
         self.immagine_sx_180 = pygame.transform.rotate(self.immagine_sx, 180)
         self.immagine_sx_270 = pygame.transform.rotate(self.immagine_sx, 90)
@@ -139,10 +142,15 @@ class Giocatore:
                 self.immagine = self.immagine_fermo
                 self.immagine = pygame.transform.scale(self.immagine, (150, 120))
                 
+    #funzione per uccidere
+    def kill (self, bot):
+        tastiera = pygame.key.get_pressed()
+        if tastiera[pygame.K_k]:
+            if self.rect.colliderect(bot.rect_vivo):
+                bot.stato = True
+       
                     
 
-                
-            
                 
 
 
@@ -157,12 +165,14 @@ class Bot:
         self.orientamento = orientamento
         
         #immagini
-        self.immagine_vivo = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Bot_vivo.png").convert_alpha()
+        self.immagine_vivo = pygame.image.load("CtB images\Bot_vivo.png").convert_alpha()
+        #self.immagine_vivo = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Bot_vivo.png").convert_alpha()
         self.immagine_vivo = pygame.transform.scale(self.immagine_vivo, (100, 100))
         self.immagine_vivo_90 = pygame.transform.rotate(self.immagine_vivo, orientamento)
         self.immagine_vivo_180 = pygame.transform.rotate(self.immagine_vivo, orientamento)
         self.immagine_vivo_270 = pygame.transform.rotate(self.immagine_vivo, orientamento)
-        self.immagine_morto = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Bot_morto.png").convert_alpha()
+        self.immagine_morto = pygame.image.load("CtB images\Bot_morto.png").convert_alpha()
+        #self.immagine_morto = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Bot_morto.png").convert_alpha()
         self.immagine_morto = pygame.transform.scale(self.immagine_morto, (80, 80))
         
         #rettangoli
@@ -190,6 +200,8 @@ class Bot:
 
         self.rect_vivo.x = newx
         self.rect_vivo.y = newy
+        self.rect_morto.x = newx
+        self.rect_morto.y = newy
 
         if self.orientamento == 0:
             self.campo_rect = self.campo.get_rect(midbottom = (self.rect_vivo.midtop))
@@ -217,12 +229,7 @@ class Bot:
         elif self.stato == True:
             schermo.blit(self.immagine_morto, self.rect_morto)
     
-    #funzione per uccidere
-    def kill (self, tastiera = None):
-        tastiera = pygame.key.get_pressed()
-        if tastiera == [pygame.K_k]:
-            self.stato = True
-
+ 
 
 
 

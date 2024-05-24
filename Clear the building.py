@@ -5,21 +5,23 @@ from Classi_Giocatore_e_Bot import Bot
 
 pygame.init()
 
- 
+
 #clock
 clock = pygame.time.Clock()
 
 
 #creazione finestra 
-altezza = 1000
-larghezza = 1600
+info = pygame.display.Info()
+altezza = info.current_h
+larghezza = info.current_w
 dimensioni = (larghezza, altezza)
 schermo = pygame.display.set_mode(dimensioni)
 
 #personalizzazione finestra
 sfondo = ("Black")
 pygame.display.set_caption("Clear the Building!")
-prog_icon = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Icon.png").convert_alpha()
+prog_icon = pygame.image.load("CtB images\Icon.png").convert_alpha()
+#prog_icon = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Icon.png").convert_alpha()
 pygame.display.set_icon(prog_icon)
 
 #creazione del giocatore
@@ -33,7 +35,8 @@ bot4 = Bot(x = 600, y = 700, orientamento = 90, stato = False)
 bots = [bot1, bot2, bot3, bot4]
 
 #immagine "Sei stato scoperto!"
-SSS_immagine = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/SSS.jpg").convert_alpha()
+SSS_immagine = pygame.image.load("CtB images\SSS.jpg").convert_alpha()
+#SSS_immagine = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/SSS.jpg").convert_alpha()
 SSS_rect = SSS_immagine.get_rect()
 SSS_pos = (larghezza // 2 - SSS_rect.width // 2, altezza // 2 - SSS_rect.height // 2 - 200)
 game_over = False
@@ -58,6 +61,7 @@ while True:
         schermo.fill(sfondo)
         schermo.blit(SSS_immagine, SSS_pos)
 
+
     #blit del personaggio
     giocatore1.disegna(schermo)
 
@@ -65,7 +69,8 @@ while True:
     for bot in bots:
         if bot.stato == False and giocatore1.collisioni(bot):
             game_over = True
-    
+        giocatore1.kill(bot)
+
     #blit dei bot
     for bot in bots:
         bot.disegna(schermo, giocatore1.wx, giocatore1.wy)
