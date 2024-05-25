@@ -79,7 +79,7 @@ class Giocatore:
         #testo kill
         self.kst = False
         self.killtxt = pygame.font.Font("SIXTY.TTF", 21)
-        self.killtxt_surf = self.killtxt.render("Uccidere?", True, "White")
+        self.killtxt_surf = self.killtxt.render("Eliminare?", True, "White")
         self.killtxt_rect = self.killtxt_surf.get_rect(center = (lSchermo - self.rect.width // 2,hSchermo - self.rect.height // 2))
 
     #funzione per blit del giocatore
