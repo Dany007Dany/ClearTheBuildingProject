@@ -9,17 +9,19 @@ class Giocatore:
         #coordinate mappa
         self.wx = 0
         self.wy = 0
+        self.angolo = 0
+
 
         #immagini giocatore nelle 4 posizioni + rettangoli immagini
-        #self.immagine_fermo = pygame.image.load("CtB images\Player_1.png").convert_alpha()
-        self.immagine_fermo = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Player_1.png").convert_alpha()
-        #self.immagine_dx =  pygame.image.load("CtB images\Player_2.png").convert_alpha()
-        self.immagine_dx =  pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Player_2.png").convert_alpha()
+        self.immagine_fermo = pygame.image.load("CtB images\Player_1.png").convert_alpha()
+        #self.immagine_fermo = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Player_1.png").convert_alpha()
+        self.immagine_dx =  pygame.image.load("CtB images\Player_2.png").convert_alpha()
+        #self.immagine_dx =  pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Player_2.png").convert_alpha()
         self.immagine_dx_90 = pygame.transform.rotate(self.immagine_dx, -90)
         self.immagine_dx_180 = pygame.transform.rotate(self.immagine_dx, 180)
         self.immagine_dx_270 = pygame.transform.rotate(self.immagine_dx, 90)
-        #self.immagine_sx =  pygame.image.load("CtB images\Player_3.png").convert_alpha()
-        self.immagine_sx =  pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Player_3.png").convert_alpha()
+        self.immagine_sx =  pygame.image.load("CtB images\Player_3.png").convert_alpha()
+        #self.immagine_sx =  pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Player_3.png").convert_alpha()
         self.immagine_sx_90 = pygame.transform.rotate(self.immagine_sx, -90)
         self.immagine_sx_180 = pygame.transform.rotate(self.immagine_sx, 180)
         self.immagine_sx_270 = pygame.transform.rotate(self.immagine_sx, 90)
@@ -79,23 +81,26 @@ class Giocatore:
 
         #testo kill
         self.kst = False
-        self.kill_icon = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Kill_button.png").convert_alpha()
+        self.kill_icon = pygame.image.load("CtB images\Kill_button.png").convert_alpha()
+        #self.kill_icon = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Kill_button.png").convert_alpha()
         self.kill_icon = pygame.transform.scale(self.kill_icon, (150, 150))
         self.kill_icon_rect = self.kill_icon.get_rect(center = (lSchermo - self.rect.width, hSchermo - self.rect.height))
 
         self.kst_2 = True
-        self.kill_icon_2 = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Kill_button_2.png").convert_alpha()
+        self.kill_icon_2 = pygame.image.load("CtB images\Kill_button_2.png").convert_alpha()
+        #self.kill_icon_2 = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Kill_button_2.png").convert_alpha()
         self.kill_icon_2 = pygame.transform.scale(self.kill_icon_2, (150, 150))
         self.kill_icon_rect_2 = self.kill_icon_2.get_rect(center = (lSchermo - self.rect.width, hSchermo - self.rect.height))
 
     #funzione per blit del giocatore
     def disegna(self, schermo):
-        schermo.blit(self.immagine, self.rect)
-        #schermo.blit(self.kill_surf, self.kill_surf_rect)
         if self.kst:
             schermo.blit(self.kill_icon, self.kill_icon_rect)
         if self.kst_2:
             schermo.blit(self.kill_icon_2, self.kill_icon_rect_2)
+        schermo.blit(self.immagine, self.rect)
+        #schermo.blit(self.kill_surf, self.kill_surf_rect)
+       
 
     #funzione per movimento del giocatore
     def mov (self, tastiera = None):
@@ -188,11 +193,13 @@ class Giocatore:
                     self.immagine = pygame.transform.scale(self.immagine, (120, 130))
             
             
-            
-            
             else:
-                self.immagine = self.immagine_fermo
-                self.immagine = pygame.transform.scale(self.immagine, (150, 120))
+                self.immagine = pygame.transform.rotate(self.immagine_fermo, self.angolo)
+                if self.angolo == 180 or self.angolo == 0:
+                    self.immagine = pygame.transform.scale(self.immagine, (150, 120))
+                elif self.angolo == 90 or self.angolo == -90:
+                    self.immagine = pygame.transform.scale(self.immagine, (120, 130))
+
                 
     #funzione per uccidere
     def kill (self, bot):
@@ -235,14 +242,14 @@ class Bot:
         self.orientamento = orientamento
         
         #immagini
-        #self.immagine_vivo = pygame.image.load("CtB images\Bot_vivo.png").convert_alpha()
-        self.immagine_vivo = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Bot_vivo.png").convert_alpha()
+        self.immagine_vivo = pygame.image.load("CtB images\Bot_vivo.png").convert_alpha()
+        #self.immagine_vivo = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Bot_vivo.png").convert_alpha()
         self.immagine_vivo = pygame.transform.scale(self.immagine_vivo, (100, 100))
         self.immagine_vivo_90 = pygame.transform.rotate(self.immagine_vivo, orientamento)
         self.immagine_vivo_180 = pygame.transform.rotate(self.immagine_vivo, orientamento)
         self.immagine_vivo_270 = pygame.transform.rotate(self.immagine_vivo, orientamento)
-        #self.immagine_morto = pygame.image.load("CtB images\Bot_morto.png").convert_alpha()
-        self.immagine_morto = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Bot_morto.png").convert_alpha()
+        self.immagine_morto = pygame.image.load("CtB images\Bot_morto.png").convert_alpha()
+        #self.immagine_morto = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Bot_morto.png").convert_alpha()
         self.immagine_morto = pygame.transform.scale(self.immagine_morto, (100, 100))
         
         #rettangoli
