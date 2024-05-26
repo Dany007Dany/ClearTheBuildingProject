@@ -5,8 +5,7 @@ class Pavimento:
     def __init__(self, x, y, lSchermo) -> None:
         self.x = x
         self.y = y
-        self.imm_pav = pygame.image.load("CtB images\Texture Pavimento.jpeg").convert_alpha()
-        self.imm_pav = pygame.transform.scale(self.imm_pav, (500, 500))
+        self.imm_pav = pygame.image.load("CtB images/Floor.png").convert_alpha()
         self.rect_pav = self.imm_pav.get_rect()
         self.rect_pav.center = ((x,y))
     

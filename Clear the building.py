@@ -19,7 +19,7 @@ print(dimensioni)
 #personalizzazione finestra
 sfondo = ("Grey")
 pygame.display.set_caption("Clear the Building!")
-prog_icon = pygame.image.load("CtB images\Icon.png").convert_alpha()
+prog_icon = pygame.image.load("CtB images/Icon.png").convert_alpha()
 #prog_icon = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Icon.png").convert_alpha()
 pygame.display.set_icon(prog_icon)
 
@@ -34,7 +34,7 @@ bot4 = Bot(x = 600, y = 700, orientamento = 90, stato = False)
 bots = [bot1, bot2, bot3, bot4]
 
 #immagine "Sei stato scoperto!"
-SSS_immagine = pygame.image.load("CtB images\SSS.jpg").convert_alpha()
+SSS_immagine = pygame.image.load("CtB images/SSS.jpg").convert_alpha()
 #SSS_immagine = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/SSS.jpg").convert_alpha()
 SSS_rect = SSS_immagine.get_rect()
 SSS_pos = (larghezza // 2 - SSS_rect.width // 2, altezza // 2 - SSS_rect.height // 2 - 200)
@@ -42,25 +42,25 @@ game_over = False
 
 #settings
 #stg_img = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Settings.png").convert_alpha()
-stg_img = pygame.image.load("CtB images\Settings.png").convert_alpha()
+stg_img = pygame.image.load("CtB images/Settings.png").convert_alpha()
 stg_img = pygame.transform.scale(stg_img, (80, 80))
 stg_pos = (larghezza - larghezza // 17, 0)
 stg_rect = stg_img.get_rect(topleft = stg_pos)
 
 #settings interface
 #interface_imm = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Interface.png").convert_alpha()
-interface_imm = pygame.image.load("CtB images\Interface.png").convert_alpha()
+interface_imm = pygame.image.load("CtB images/Interface.png").convert_alpha()
 interface_imm = pygame.transform.scale(interface_imm, (larghezza, altezza))
 #interface_wasd = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/K_wasd.png").convert_alpha()
-interface_wasd = pygame.image.load("CtB images\K_wasd.png").convert_alpha()
+interface_wasd = pygame.image.load("CtB images/K_wasd.png").convert_alpha()
 interface_wasd = pygame.transform.scale(interface_wasd, (300, 300))
-interface_k = pygame.image.load("CtB images\K_k.png").convert_alpha()
+interface_k = pygame.image.load("CtB images/K_k.png").convert_alpha()
 #interface_k = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/K_k.png").convert_alpha()
 #interface_k = pygame.transform.scale(interface_k, (300, 300))
-interface_x = pygame.image.load("CtB images\K_x.png").convert_alpha()
+interface_x = pygame.image.load("CtB images/K_x.png").convert_alpha()
 #interface_x = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/K_x.png").convert_alpha()
 interface_x = pygame.transform.scale(interface_x, (300, 300))
-interface_shift = pygame.image.load("CtB images\SHIFT.png").convert_alpha()
+interface_shift = pygame.image.load("CtB images/SHIFT.png").convert_alpha()
 #interface_shift = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/SHIFT.png").convert_alpha()
 interface_shift = pygame.transform.scale(interface_shift, (300, 300))
 
@@ -153,15 +153,13 @@ while True:
         txt_cmm = pygame.font.Font("SIXTY.TTF", 55)
         #commenti
         if cont/len(bots) <= 0.3:
-            txt_srf_cmm = txt_cmm.render(f"Patetico", False, "Red")
+            txt_srf_cmm = txt_cmm.render(f"Patetico, non avrai mai una promozione", False, "Red")
         if cont/len(bots) > 0.3 and cont/len(bots) <= 0.5:
             txt_srf_cmm = txt_cmm.render(f"Cosa pensavi di fare? Volevi forse farci uccidere?", False, "Red")
         if cont/len(bots) > 0.5 and cont/len(bots) <= 0.7:
             txt_srf_cmm = txt_cmm.render(f"Ti sembra il caso di scherzare? Potevi fare molto meglio", False, "Red")
         if cont/len(bots) > 0.7 and cont/len(bots) <= 0.9:
-            txt_srf_cmm = txt_cmm.render(f"Operazione completata ", False, "Red")
-        if cont/len(bots) == 1:
-            txt_srf_cmm = txt_cmm.render(f"Congratulazioni soldato, sei stato promosso", False, "Red")
+            txt_srf_cmm = txt_cmm.render(f"Quasi, ma hai fallito lo stesso", False, "Red")
         #blit dei commenti
         txt_rect_cmm = txt_srf_cmm.get_rect(midtop = (larghezza//2, altezza//2 +55))
         schermo.blit(txt_srf_cmm, txt_rect_cmm)
@@ -183,4 +181,4 @@ while True:
     #aggiornamenti vari e eventuali 
     pygame.display.flip()
     pygame.display.update()
-    clock.tick(60)
+    clock.tick(6000)
