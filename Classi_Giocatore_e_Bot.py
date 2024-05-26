@@ -208,6 +208,7 @@ class Giocatore:
             if self.rect.colliderect(bot.rect_vivo):
                 bot.stato = True
 
+
     #Funzione di stato del bottone di autorizzazione kill
     def killSTAT (self, botslist):
         lst = []

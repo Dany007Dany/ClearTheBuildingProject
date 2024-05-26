@@ -2,7 +2,7 @@ import pygame
 from sys import exit
 from Classi_Giocatore_e_Bot import Giocatore
 from Classi_Giocatore_e_Bot import Bot
-
+from Mappa import Pavimento
 pygame.init()
 
 #clock
@@ -14,6 +14,7 @@ altezza = info.current_h -70
 larghezza = info.current_w -30
 dimensioni = (larghezza, altezza)
 schermo = pygame.display.set_mode(dimensioni)
+print(dimensioni)
 
 #personalizzazione finestra
 sfondo = ("Grey")
@@ -82,7 +83,8 @@ scritta_kill_pos = (larghezza // 1.95, altezza // 3.5)
 bottone_x = interface_x.get_rect(topleft = interface_x_pos)
 settings = False
 
-
+#pavimento
+pav_base = Pavimento(200,200,larghezza)
 
 #ciclo principale
 while True:
@@ -119,21 +121,53 @@ while True:
     #AGIORNAMENTO SCHERMO
     schermo.fill(sfondo)
     
-    if game_over:
-        schermo.fill(sfondo)
-        schermo.blit(SSS_immagine, SSS_pos)
     
-    #blit del personaggio
-    giocatore1.disegna(schermo)
+    #blit pavimento
+    pav_base.dis_pav(schermo, giocatore1.wx, giocatore1.wy)
 
     #blit settings
     schermo.blit(stg_img, stg_pos)
+
 
     #blit dei bot
     for bot in bots:
         bot.disegna(schermo, giocatore1.wx, giocatore1.wy)
 
 
+    #blit del personaggio
+    giocatore1.disegna(schermo)
+
+    #contatore
+    cont = 0
+    for bot in bots:
+        if bot.stato == True:
+            cont += 1
+
+    if game_over:
+        schermo.fill("Black")
+        schermo.blit(SSS_immagine, SSS_pos)
+        txt = pygame.font.Font("SIXTY.TTF", 55)
+        txt_srf = txt.render(f"Numero di guardie eliminate: {cont}", False, "White")
+        txt_rect = txt_srf.get_rect(midtop = (larghezza//2, altezza//2))
+        schermo.blit(txt_srf, txt_rect)
+        txt_cmm = pygame.font.Font("SIXTY.TTF", 55)
+        #commenti
+        if cont/len(bots) <= 0.3:
+            txt_srf_cmm = txt_cmm.render(f"Patetico", False, "Red")
+        if cont/len(bots) > 0.3 and cont/len(bots) <= 0.5:
+            txt_srf_cmm = txt_cmm.render(f"Cosa pensavi di fare? Volevi forse farci uccidere?", False, "Red")
+        if cont/len(bots) > 0.5 and cont/len(bots) <= 0.7:
+            txt_srf_cmm = txt_cmm.render(f"Ti sembra il caso di scherzare? Potevi fare molto meglio", False, "Red")
+        if cont/len(bots) > 0.7 and cont/len(bots) <= 0.9:
+            txt_srf_cmm = txt_cmm.render(f"Operazione completata ", False, "Red")
+        if cont/len(bots) == 1:
+            txt_srf_cmm = txt_cmm.render(f"Congratulazioni soldato, sei stato promosso", False, "Red")
+        #blit dei commenti
+        txt_rect_cmm = txt_srf_cmm.get_rect(midtop = (larghezza//2, altezza//2 +55))
+        schermo.blit(txt_srf_cmm, txt_rect_cmm)
+
+
+    
     #blit delle impostazioni
     if settings:
         schermo.blit(interface_imm, interface_imm_pos)
@@ -143,6 +177,8 @@ while True:
         schermo.blit(scritta_wasd, srcitta_wasd__pos)
         schermo.blit(scritta_kill, scritta_kill_pos)
         schermo.blit(interface_shift, interface_shift_pos)
+
+    
     
     #aggiornamenti vari e eventuali 
     pygame.display.flip()
