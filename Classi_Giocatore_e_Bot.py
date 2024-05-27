@@ -10,6 +10,8 @@ class Giocatore:
         self.wx = 0
         self.wy = 0
         self.angolo = 0
+        self.lista_cll = []
+
 
 
         #immagini giocatore nelle 4 posizioni + rettangoli immagini
@@ -67,7 +69,7 @@ class Giocatore:
         
         #velocità di movimento
         self.vel_gioc = 0.7
-        self.vel_gioc_shift = 0.35
+        self.vel_gioc_shift = 0.3
         self.vel_gioc_ctrl = 9
 
         #superficie kill
@@ -105,17 +107,22 @@ class Giocatore:
 
     #funzione per movimento del giocatore
     def mov (self, tastiera = None):
-        #pos = (gioc_x, gioc_y)
+
+       
 
    
         tastiera = pygame.key.get_pressed()
-    #camminata lenta (4)
+
+
+        
         if tastiera[pygame.K_LSHIFT]:
             if tastiera[pygame.K_a]:
-                self.wx -= self.vel_gioc_shift
-                self.immagine = self.immagine_ruotata_270
-                self.angolo = 90
-                return True, self.angolo
+                for el in self.lista_cll:
+                    if el[0] == "a" and el[1] == False:
+                        self.wx -= self.vel_gioc_shift
+                        self.immagine = self.immagine_ruotata_270
+                        self.angolo = 90
+                        return True, self.angolo
             if tastiera[pygame.K_d]:
                 self.wx += self.vel_gioc_shift
                 self.immagine = self.immagine_ruotata_90
@@ -152,7 +159,7 @@ class Giocatore:
                 self.immagine = self.immagine_ruotata_180
                 self.angolo = 180
                 return True, self.angolo
-    #camminata veloce (8)
+        
         else:
             if tastiera[pygame.K_a]:
                 self.wx -= self.vel_gioc
@@ -175,13 +182,21 @@ class Giocatore:
                 self.angolo = 180
                 return True, self.angolo
             
+            
+            
 
         
 
     
     #funzione per verificare lo stato delle collisioni del personaggio con i campi visivi
     def collisioni(self, bot):
-        return self.rect.colliderect(bot.campo_rect)
+        return self.rect.colliderect(bot.campo_rect) 
+    
+
+    def confini(self, pav):
+        return self.rect.colliderect(pav.rect_pav)
+
+
     
     def animazione(self):
             if self.mov():
