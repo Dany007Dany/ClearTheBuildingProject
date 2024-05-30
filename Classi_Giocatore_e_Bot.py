@@ -10,20 +10,18 @@ class Giocatore:
         self.wx = 0
         self.wy = 0
         self.angolo = 0
-        self.lista_cll = []
 
+    
+        
 
 
         #immagini giocatore nelle 4 posizioni + rettangoli immagini
         self.immagine_fermo = pygame.image.load("CtB images/Player_1.png").convert_alpha()
-        #self.immagine_fermo = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Player_1.png").convert_alpha()
         self.immagine_dx =  pygame.image.load("CtB images/Player_2.png").convert_alpha()
-        #self.immagine_dx =  pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Player_2.png").convert_alpha()
         self.immagine_dx_90 = pygame.transform.rotate(self.immagine_dx, -90)
         self.immagine_dx_180 = pygame.transform.rotate(self.immagine_dx, 180)
         self.immagine_dx_270 = pygame.transform.rotate(self.immagine_dx, 90)
         self.immagine_sx =  pygame.image.load("CtB images/Player_3.png").convert_alpha()
-        #self.immagine_sx =  pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Player_3.png").convert_alpha()
         self.immagine_sx_90 = pygame.transform.rotate(self.immagine_sx, -90)
         self.immagine_sx_180 = pygame.transform.rotate(self.immagine_sx, 180)
         self.immagine_sx_270 = pygame.transform.rotate(self.immagine_sx, 90)
@@ -68,32 +66,26 @@ class Giocatore:
         self.rect_immagine_ruotata_270.center = (lSchermo // 2 - self.rect.width // 2, hSchermo // 2 - self.rect.height // 2)
         
         #velocità di movimento
-        self.vel_gioc = 0.7
-        self.vel_gioc_shift = 0.3
-        self.vel_gioc_ctrl = 9
+        self.vel_gioc = 1.4
+        self.vel_gioc_shift = 0.7
+        self.vel_gioc_ctrl = 20.2
 
-        #superficie kill
-        #self.kill_surf = pygame.Surface((90,90))
-        #self.kill_surf_rect = self.kill_surf.get_rect()
-        #self.kill_surf_rect.x =  lSchermo - self.rect.width // 2
-        #self.kill_surf_rect.y =  hSchermo - self.rect.height // 2
-        #self.kill_surf_rect.center = (lSchermo - self.rect.width // 2,hSchermo - self.rect.height // 2)
-        #self.kill_surf_rect.x = lSchermo // 2 - self.rect.width // 2
-        #self.kill_surf_rect.y = hSchermo // 2 - self.rect.height // 2
-        #self.kill_surf_rect.center = (lSchermo // 2 - self.rect.width // 2, hSchermo // 2 - self.rect.height // 2)
-
-        #testo kill
+        #icona kill
         self.kst = False
         self.kill_icon = pygame.image.load("CtB images/Kill_button.png").convert_alpha()
-        #self.kill_icon = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Kill_button.png").convert_alpha()
         self.kill_icon = pygame.transform.scale(self.kill_icon, (200, 170))
         self.kill_icon_rect = self.kill_icon.get_rect(center = (lSchermo - self.rect.width, hSchermo - self.rect.height))
 
         self.kst_2 = True
         self.kill_icon_2 = pygame.image.load("CtB images/Kill_button_2.png").convert_alpha()
-        #self.kill_icon_2 = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Kill_button_2.png").convert_alpha()
         self.kill_icon_2 = pygame.transform.scale(self.kill_icon_2, (200, 170))
         self.kill_icon_rect_2 = self.kill_icon_2.get_rect(center = (lSchermo - self.rect.width, hSchermo - self.rect.height))
+
+
+
+
+    
+
 
     #funzione per blit del giocatore
     def disegna(self, schermo):
@@ -102,87 +94,95 @@ class Giocatore:
         if self.kst_2:
             schermo.blit(self.kill_icon_2, self.kill_icon_rect_2)
         schermo.blit(self.immagine, self.rect)
-        #schermo.blit(self.kill_surf, self.kill_surf_rect)
        
 
     #funzione per movimento del giocatore
-    def mov (self, tastiera = None):
-
-       
-
-   
+    def mov (self, rectpav, tastiera = None):
+    #impostazione posizione ideale
+        newx = self.wx
+        newy = self.wy
         tastiera = pygame.key.get_pressed()
-
-
         
         if tastiera[pygame.K_LSHIFT]:
             if tastiera[pygame.K_a]:
-                for el in self.lista_cll:
-                    if el[0] == "a" and el[1] == False:
-                        self.wx -= self.vel_gioc_shift
-                        self.immagine = self.immagine_ruotata_270
-                        self.angolo = 90
-                        return True, self.angolo
+                newx -= self.vel_gioc_shift
             if tastiera[pygame.K_d]:
-                self.wx += self.vel_gioc_shift
-                self.immagine = self.immagine_ruotata_90
-                self.angolo = -90
-                return True, self.angolo
+                newx += self.vel_gioc_shift
             if tastiera[pygame.K_w]:
-                self.wy -= self.vel_gioc_shift
-                self.immagine = self.immagine_ruotata_0
-                self.angolo = 0
-                return True, self.angolo
+                newy -= self.vel_gioc_shift
             if tastiera[pygame.K_s]:
-                self.wy += self.vel_gioc_shift
-                self.immagine = self.immagine_ruotata_180
-                self.angolo = 180
-                return True, self.angolo
+                newy += self.vel_gioc_shift
+            
         elif tastiera[pygame.K_LCTRL]:
             if tastiera[pygame.K_a]:
-                self.wx -= self.vel_gioc_ctrl
-                self.immagine = self.immagine_ruotata_270
-                self.angolo = 90
-                return True, self.angolo
+                newx -= self.vel_gioc_ctrl
             if tastiera[pygame.K_d]:
-                self.wx += self.vel_gioc_ctrl
-                self.immagine = self.immagine_ruotata_90
-                self.angolo = -90
-                return True, self.angolo
+                newx += self.vel_gioc_ctrl
             if tastiera[pygame.K_w]:
-                self.wy -= self.vel_gioc_ctrl
-                self.immagine = self.immagine_ruotata_0
-                self.angolo = 0
-                return True, self.angolo
+                newy -= self.vel_gioc_ctrl
             if tastiera[pygame.K_s]:
-                self.wy += self.vel_gioc_ctrl
-                self.immagine = self.immagine_ruotata_180
-                self.angolo = 180
-                return True, self.angolo
+                newy += self.vel_gioc_ctrl
         
         else:
             if tastiera[pygame.K_a]:
-                self.wx -= self.vel_gioc
-                self.immagine = self.immagine_ruotata_270
-                self.angolo = 90
-                return True, self.angolo
+                newx -= self.vel_gioc
             if tastiera[pygame.K_d]:
-                self.wx += self.vel_gioc
-                self.immagine = self.immagine_ruotata_90
-                self.angolo = -90
-                return True, self.angolo
+                newx += self.vel_gioc
             if tastiera[pygame.K_w]:
-                self.wy -= self.vel_gioc
-                self.immagine = self.immagine_ruotata_0
-                self.angolo = 0
-                return True, self.angolo
+                newy -= self.vel_gioc
             if tastiera[pygame.K_s]:
-                self.wy += self.vel_gioc
-                self.immagine = self.immagine_ruotata_180
-                self.angolo = 180
-                return True, self.angolo
-            
-            
+                newy += self.vel_gioc
+
+        #contorllo ostacoli
+                
+
+
+                
+                
+        #controllo pareti
+        # SE: somma tra new (x,y) + dimensione giocatore (x,y)
+        #è maggiore della posizione della parete destra e sotto
+        # ALLORA: non aggiornare x o y
+                
+        if newx + self.rect.width + self.rect.x > rectpav.width + 400:
+            newx = self.wx
+        if newx + self.rect.x < 400:
+            newx = self.wx
+        if newy + self.rect.height + self.rect.y > rectpav.height + 300:
+            newy = self.wy
+        if newy + self.rect.y < 300:
+            newy = self.wy
+        
+
+        
+        #aggiornamento posizione
+        
+        self.wx = newx
+        self.wy = newy
+
+        #print(self.wx, self.wy)
+
+
+    def rotazione (self, tastiera = None):
+        tastiera = pygame.key.get_pressed()
+        if tastiera[pygame.K_a]:
+            self.immagine = self.immagine_ruotata_270
+            self.angolo = 90
+            return True, self.angolo
+        if tastiera[pygame.K_d]:
+            self.immagine = self.immagine_ruotata_90
+            self.angolo = -90
+            return True, self.angolo
+        if tastiera[pygame.K_w]:
+            self.immagine = self.immagine_ruotata_0
+            self.angolo = 0
+            return True, self.angolo
+        if tastiera[pygame.K_s]:
+            self.immagine = self.immagine_ruotata_180
+            self.angolo = 180
+            return True, self.angolo
+       
+                
             
 
         
@@ -199,7 +199,7 @@ class Giocatore:
 
     
     def animazione(self):
-            if self.mov():
+            if self.rotazione():
 
                 if self.angolo == 0:
                     self.indice += 0.01
@@ -244,6 +244,7 @@ class Giocatore:
         if tastiera[pygame.K_k]:
             if self.rect.colliderect(bot.rect_vivo):
                 bot.stato = True
+            
 
 
     #Funzione di stato del bottone di autorizzazione kill
@@ -295,7 +296,7 @@ class Bot:
         self.rect_morto = self.immagine_morto.get_rect(center = (x, y))
 
         #campi visivi
-        self.campo = pygame.surface.Surface((120, 120))
+        self.campo = pygame.surface.Surface((240, 240))
         self.campo.fill("Red")
         if self.orientamento == 0:
             self.campo_rect = self.campo.get_rect(midbottom = (self.rect_vivo.midtop))
