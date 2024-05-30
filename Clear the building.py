@@ -15,7 +15,6 @@ altezza = info.current_h -70
 larghezza = info.current_w -30
 dimensioni = (larghezza, altezza)
 schermo = pygame.display.set_mode(dimensioni)
-print(dimensioni)
 
 #personalizzazione finestra
 sfondo = ("Grey")
@@ -44,7 +43,8 @@ imm_ostacolo_3_orizzontale.fill("Grey20")
 imm_ostacolo_4_verticale = pygame.surface.Surface((20, 2000))
 
 
-
+#pavimento
+pav_base = Pavimento(larghezza//4,altezza//4)
 
 #immagini arredamenti
 imm_scrivaniaadangolo = pygame.image.load("CtB images/ScrivaniaAngolo.png")
@@ -56,12 +56,12 @@ imm_tavolo = pygame.image.load("CtB images/Tavolo.png")
 
 
 #muri esterni
-ostacolo_1_muro = Ostacolo(imm_ostacolo_1_orizzontale, 380,300)
-ostacolo_2_muro = Ostacolo(imm_ostacolo_2_verticale, 400, 300)
-ostacolo_3_muro = Ostacolo(imm_ostacolo_1_orizzontale, 400, 4300)
-ostacolo_4_muro = Ostacolo(imm_ostacolo_2_verticale, 4400, 300)
+ostacolo_1_muro = Ostacolo(imm_ostacolo_1_orizzontale, larghezza//4 - 20,altezza//4)
+ostacolo_2_muro = Ostacolo(imm_ostacolo_2_verticale, larghezza//4, altezza//4)
+ostacolo_3_muro = Ostacolo(imm_ostacolo_1_orizzontale, larghezza//4, altezza//4 + 4000)
+ostacolo_4_muro = Ostacolo(imm_ostacolo_2_verticale, larghezza//4 + 4000, altezza//4)
 #muri interi
-ostacolo_5_muro = Ostacolo(imm_ostacolo_3_orizzontale, 400, 750)
+ostacolo_5_muro = Ostacolo(imm_ostacolo_3_orizzontale, larghezza//4, pav_base.rect_pav.height//5)
 ostacolo_6_muro = Ostacolo(imm_ostacolo_4_verticale, 3400, 500)
 #ostacoli
 ostacolo_1 = Ostacolo(imm_scrivaniaadangolo, 350, 400)
@@ -81,6 +81,7 @@ stg_pos = (larghezza - larghezza // 17, 0)
 stg_rect = stg_img.get_rect(topleft = stg_pos)
 
 #settings interface
+settings = False
 interface_imm = pygame.image.load("CtB images/Interface.png").convert_alpha()
 interface_imm = pygame.transform.scale(interface_imm, (larghezza, altezza))
 interface_x = pygame.image.load("CtB images/K_x.png").convert_alpha()
@@ -93,15 +94,13 @@ interface_x_pos = (larghezza - interface_x.get_width() * 3.2, altezza // 4.5)
 interface_exit_pos = (larghezza - interface_x.get_width() * 3.2, altezza // 1.47)
 bottone_x = interface_x.get_rect(topleft = interface_x_pos)
 bottone_exit_game = interface_exit_game.get_rect(topleft = interface_exit_pos)
-settings = False
 
 #lascia gioco
 font_leave = pygame.font.Font("SIXTY.TTF", 40)
 leave_render = font_leave.render("Premi Sp_azio per uscire", True, "White")
 
 
-#pavimento
-pav_base = Pavimento(400,300)
+
 
 #ciclo principale
 while True:
@@ -122,7 +121,7 @@ while True:
         
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             pos = pygame.mouse.get_pos()
-            if bottone_exit_game.collidepoint(pos):
+            if bottone_exit_game.collidepoint(pos) and settings == True:
                 pygame.quit()
                 exit()
         

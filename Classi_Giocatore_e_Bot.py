@@ -10,7 +10,8 @@ class Giocatore:
         self.wx = 0
         self.wy = 0
         self.angolo = 0
-
+        self.hSchermo = hSchermo
+        self.lSchermo = lSchermo
     
         
 
@@ -144,13 +145,13 @@ class Giocatore:
         #è maggiore della posizione della parete destra e sotto
         # ALLORA: non aggiornare x o y
                 
-        if newx + self.rect.width + self.rect.x > rectpav.width + 400:
+        if newx + self.rect.width + self.rect.x > rectpav.width + self.lSchermo//4 :
             newx = self.wx
-        if newx + self.rect.x < 400:
+        if newx + self.rect.x < self.lSchermo//4:
             newx = self.wx
-        if newy + self.rect.height + self.rect.y > rectpav.height + 300:
+        if newy + self.rect.height + self.rect.y > rectpav.height + self.hSchermo//4:
             newy = self.wy
-        if newy + self.rect.y < 300:
+        if newy + self.rect.y < self.hSchermo//4:
             newy = self.wy
         
 
@@ -296,7 +297,7 @@ class Bot:
         self.rect_morto = self.immagine_morto.get_rect(center = (x, y))
 
         #campi visivi
-        self.campo = pygame.surface.Surface((240, 240))
+        self.campo = pygame.surface.Surface((321, 321))
         self.campo.fill("Red")
         if self.orientamento == 0:
             self.campo_rect = self.campo.get_rect(midbottom = (self.rect_vivo.midtop))
