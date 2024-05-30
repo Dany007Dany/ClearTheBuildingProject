@@ -30,10 +30,20 @@ giocatore1 = Giocatore(altezza, larghezza)
 #pavimento
 pav_base = Pavimento(larghezza//4,0)
 
+#freccia + scritta
+fnt = pygame.font.Font("Bleeding_Cowboys.ttf", 42)
+fnt2 = pygame.font.Font("Bleeding_Cowboys.ttf", 21)
+txt_rnd = fnt.render("Da questa parte", True, "firebrick3")
+imm_frcc = pygame.image.load("CtB images\Freccia.png").convert_alpha()
+imm_ost_frcc = Ostacolo(imm_frcc, larghezza//2.5, -50)
+txt_ost = Ostacolo(txt_rnd,larghezza//1.8,pav_base.rect_pav.height // 14.5)
+txt_rnd2 = fnt2.render("Guarda i comandi premendo", True, "firebrick3")
+txt_ost2 = Ostacolo(txt_rnd2, larghezza + larghezza//25,pav_base.rect_pav.height // 14.5)
+
 
 #creazione bot
 bot1 = Bot(x = 2700, y = 300, orientamento = 0, stato = False)
-bot2 = Bot(x = larghezza // 4 + pav_base.rect_pav.width // 3, y = pav_base.rect_pav.height // 8, orientamento = -90, stato = False)
+bot2 = Bot(x = larghezza // 4 + pav_base.rect_pav.width // 3, y = pav_base.rect_pav.height // 14.5, orientamento = -90, stato = False)
 bot3 = Bot(x = 2300, y = 1400, orientamento = 180, stato = False)
 bot4 = Bot(x = 2600, y = 3700, orientamento = 90, stato = False)
 bots = [bot1, bot2, bot3, bot4]
@@ -65,7 +75,7 @@ ostacolo_2_muro = Ostacolo(imm_ostacolo_2_verticale, larghezza//4, 0)
 ostacolo_3_muro = Ostacolo(imm_ostacolo_1_orizzontale, larghezza//4, 4000)
 ostacolo_4_muro = Ostacolo(imm_ostacolo_2_verticale, larghezza//4 + 4000, 0)
 #muri interi
-ostacolo_5_muro = Ostacolo(imm_ostacolo_3_orizzontale, larghezza//4, pav_base.rect_pav.height//4.9)
+ostacolo_5_muro = Ostacolo(imm_ostacolo_3_orizzontale, larghezza//4, pav_base.rect_pav.height//4.9 - altezza//4)
 ostacolo_6_muro = Ostacolo(imm_ostacolo_4_verticale, 3400, 500)
 #ostacoli
 ostacolo_1 = Ostacolo(imm_scrivaniaadangolo, 350, 400)
@@ -98,7 +108,8 @@ interface_x_pos = (larghezza - interface_x.get_width() * 3.2, altezza // 4.5)
 interface_exit_pos = (larghezza - interface_x.get_width() * 3.2, altezza // 1.47)
 bottone_x = interface_x.get_rect(topleft = interface_x_pos)
 bottone_exit_game = interface_exit_game.get_rect(topleft = interface_exit_pos)
-
+#setting_tutorial
+bottone_ost = Ostacolo(stg_img, larghezza + larghezza//9,pav_base.rect_pav.height // 13.5)
 #lascia gioco
 font_leave = pygame.font.Font("SIXTY.TTF", 40)
 leave_render = font_leave.render("Premi Sp_azio per uscire", True, "White")
@@ -157,6 +168,13 @@ while True:
     
     #blit pavimento
     pav_base.dis_pav(schermo, giocatore1.wx, giocatore1.wy)
+
+    #blit scritta
+    bottone_ost.disegna(schermo, giocatore1.wx, giocatore1.wy)
+    txt_ost.disegna(schermo, giocatore1.wx, giocatore1.wy)
+    imm_ost_frcc.disegna(schermo, giocatore1.wx, giocatore1.wy)
+    txt_ost2.disegna(schermo, giocatore1.wx, giocatore1.wy)
+    
     
     #blit muri esterni
     ostacolo_1_muro.disegna(schermo, giocatore1.wx, giocatore1.wy + ostacolo_1_muro.rect.height)
@@ -173,8 +191,7 @@ while True:
         #ostacolo.disegna(schermo, giocatore1.wx, giocatore1.wy)
     
     
-    #blit settings
-    schermo.blit(stg_img, stg_pos)
+    
 
 
     #blit dei bot
@@ -216,7 +233,10 @@ while True:
         if tastiera[pygame.K_SPACE]:
             pygame.quit()
             exit()
-    
+
+    #blit settings
+    schermo.blit(stg_img, stg_pos) 
+
     #blit delle impostazioni
     if settings:
         schermo.blit(interface_imm, interface_imm_pos)

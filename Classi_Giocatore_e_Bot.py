@@ -297,7 +297,7 @@ class Bot:
         self.rect_morto = self.immagine_morto.get_rect(center = (x, y))
 
         #campi visivi
-        self.campo = pygame.surface.Surface((321, 321))
+        self.campo = pygame.surface.Surface((500, 500))
         self.campo.fill("Red")
         if self.orientamento == 0:
             self.campo_rect = self.campo.get_rect(midbottom = (self.rect_vivo.midtop))
