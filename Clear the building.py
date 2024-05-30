@@ -27,8 +27,8 @@ pygame.display.set_icon(prog_icon)
 giocatore1 = Giocatore(altezza, larghezza)
 
 #città
-imm_città = pygame.image.load("CtB images/pexels-pok-rie-33563-4847089.jpg")
-imm_città = pygame.transform.scale(imm_città, (5000,5000))
+imm_città = pygame.image.load("CtB images/sci_riproviamo.jpg")
+#imm_città = pygame.transform.scale(imm_città, (5000,5000))
 
 città_ost = Ostacolo(imm_città, -larghezza // 4, -altezza // 2)
 
