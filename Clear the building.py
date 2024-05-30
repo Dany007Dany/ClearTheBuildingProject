@@ -11,8 +11,8 @@ clock = pygame.time.Clock()
 
 #creazione finestra 
 info = pygame.display.Info()
-altezza = info.current_h -70
-larghezza = info.current_w -30
+altezza = 700
+larghezza = 1300
 dimensioni = (larghezza, altezza)
 schermo = pygame.display.set_mode(dimensioni)
 
@@ -26,9 +26,14 @@ pygame.display.set_icon(prog_icon)
 #creazione del giocatore
 giocatore1 = Giocatore(altezza, larghezza)
 
+
+#pavimento
+pav_base = Pavimento(larghezza//4,0)
+
+
 #creazione bot
 bot1 = Bot(x = 2700, y = 300, orientamento = 0, stato = False)
-bot2 = Bot(x = 1600, y = 475, orientamento = -90, stato = False)
+bot2 = Bot(x = larghezza // 4 + pav_base.rect_pav.width // 3, y = pav_base.rect_pav.height // 8, orientamento = -90, stato = False)
 bot3 = Bot(x = 2300, y = 1400, orientamento = 180, stato = False)
 bot4 = Bot(x = 2600, y = 3700, orientamento = 90, stato = False)
 bots = [bot1, bot2, bot3, bot4]
@@ -43,8 +48,7 @@ imm_ostacolo_3_orizzontale.fill("Grey20")
 imm_ostacolo_4_verticale = pygame.surface.Surface((20, 2000))
 
 
-#pavimento
-pav_base = Pavimento(larghezza//4,altezza//4)
+
 
 #immagini arredamenti
 imm_scrivaniaadangolo = pygame.image.load("CtB images/ScrivaniaAngolo.png")
@@ -56,12 +60,12 @@ imm_tavolo = pygame.image.load("CtB images/Tavolo.png")
 
 
 #muri esterni
-ostacolo_1_muro = Ostacolo(imm_ostacolo_1_orizzontale, larghezza//4 - 20,altezza//4)
-ostacolo_2_muro = Ostacolo(imm_ostacolo_2_verticale, larghezza//4, altezza//4)
-ostacolo_3_muro = Ostacolo(imm_ostacolo_1_orizzontale, larghezza//4, altezza//4 + 4000)
-ostacolo_4_muro = Ostacolo(imm_ostacolo_2_verticale, larghezza//4 + 4000, altezza//4)
+ostacolo_1_muro = Ostacolo(imm_ostacolo_1_orizzontale, larghezza//4 - 20,0)
+ostacolo_2_muro = Ostacolo(imm_ostacolo_2_verticale, larghezza//4, 0)
+ostacolo_3_muro = Ostacolo(imm_ostacolo_1_orizzontale, larghezza//4, 4000)
+ostacolo_4_muro = Ostacolo(imm_ostacolo_2_verticale, larghezza//4 + 4000, 0)
 #muri interi
-ostacolo_5_muro = Ostacolo(imm_ostacolo_3_orizzontale, larghezza//4, pav_base.rect_pav.height//5)
+ostacolo_5_muro = Ostacolo(imm_ostacolo_3_orizzontale, larghezza//4, pav_base.rect_pav.height//4.9)
 ostacolo_6_muro = Ostacolo(imm_ostacolo_4_verticale, 3400, 500)
 #ostacoli
 ostacolo_1 = Ostacolo(imm_scrivaniaadangolo, 350, 400)

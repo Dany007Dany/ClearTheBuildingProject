@@ -149,9 +149,9 @@ class Giocatore:
             newx = self.wx
         if newx + self.rect.x < self.lSchermo//4:
             newx = self.wx
-        if newy + self.rect.height + self.rect.y > rectpav.height + self.hSchermo//4:
+        if newy + self.rect.height + self.rect.y > rectpav.height:
             newy = self.wy
-        if newy + self.rect.y < self.hSchermo//4:
+        if newy + self.rect.y < 0:
             newy = self.wy
         
 
