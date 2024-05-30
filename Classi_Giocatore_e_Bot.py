@@ -1,10 +1,11 @@
 import pygame
 import sys
+from Classi_Mappa_e_Ostacolo import Ostacolo
 
 
 #classe giocatore con movimento, immagine e caratteristiche varie. 
 class Giocatore:
-    def __init__(self, hSchermo, lSchermo):
+    def __init__(self, hSchermo, lSchermo, ostacoli):
         
         #coordinate mappa
         self.wx = 0
@@ -13,7 +14,10 @@ class Giocatore:
         self.hSchermo = hSchermo
         self.lSchermo = lSchermo
     
-        
+        self.ostacoli = ostacoli
+        self.ostacoli_rect = []
+        for ostacolo in self.ostacoli:
+            self.ostacoli_rect.append(ostacolo.rect)
 
 
         #immagini giocatore nelle 4 posizioni + rettangoli immagini
@@ -98,11 +102,12 @@ class Giocatore:
        
 
     #funzione per movimento del giocatore
-    def mov (self, rectpav, tastiera = None):
+    def mov (self, rectpav):
     #impostazione posizione ideale
         newx = self.wx
         newy = self.wy
         tastiera = pygame.key.get_pressed()
+        
         
         if tastiera[pygame.K_LSHIFT]:
             if tastiera[pygame.K_a]:
@@ -135,10 +140,16 @@ class Giocatore:
                 newy += self.vel_gioc
 
         #contorllo ostacoli
-                
-
-
-                
+        
+        self.rect_cHX = pygame.Rect(self.rect.x, self.rect.y, self.rect.width, self.rect.height)
+        collIndex = self.rect_cHX.collidelist(self.ostacoli_rect)
+        if collIndex != -1:
+            newx = self.wx
+        
+        self.rect_cHY= pygame.Rect(self.rect.x, self.rect.y, self.rect.width, self.rect.height)
+        collIndex = self.rect_cHX.collidelist(self.ostacoli_rect)
+        if collIndex != -1:
+            newy = self.wy   
                 
         #controllo pareti
         # SE: somma tra new (x,y) + dimensione giocatore (x,y)

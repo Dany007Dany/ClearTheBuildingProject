@@ -23,9 +23,6 @@ prog_icon = pygame.image.load("CtB images/Icon.png").convert_alpha()
 #prog_icon = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Icon.png").convert_alpha()
 pygame.display.set_icon(prog_icon)
 
-#creazione del giocatore
-giocatore1 = Giocatore(altezza, larghezza)
-
 
 #pavimento
 pav_base = Pavimento(larghezza//4,0)
@@ -77,10 +74,18 @@ ostacolo_4_muro = Ostacolo(imm_ostacolo_2_verticale, larghezza//4 + 4000, 0)
 #muri interi
 ostacolo_5_muro = Ostacolo(imm_ostacolo_3_orizzontale, larghezza//4, pav_base.rect_pav.height//4.9 - altezza//4)
 ostacolo_6_muro = Ostacolo(imm_ostacolo_4_verticale, 3400, 500)
+
+lista_ostacoli = [ostacolo_5_muro,ostacolo_6_muro]
+
 #ostacoli
 ostacolo_1 = Ostacolo(imm_scrivaniaadangolo, 350, 400)
 
 ostacoli = [ostacolo_1]
+
+#creazione del giocatore
+giocatore1 = Giocatore(altezza, larghezza, lista_ostacoli)
+
+
 
 #immagine "Sei stato scoperto!"
 SSS_immagine = pygame.image.load("CtB images/SSS.jpg").convert_alpha()
@@ -108,8 +113,12 @@ interface_x_pos = (larghezza - interface_x.get_width() * 3.2, altezza // 4.5)
 interface_exit_pos = (larghezza - interface_x.get_width() * 3.2, altezza // 1.47)
 bottone_x = interface_x.get_rect(topleft = interface_x_pos)
 bottone_exit_game = interface_exit_game.get_rect(topleft = interface_exit_pos)
+
+
 #setting_tutorial
 bottone_ost = Ostacolo(stg_img, larghezza + larghezza//8.5,pav_base.rect_pav.height // 13.5)
+
+
 #lascia gioco
 font_leave = pygame.font.Font("SIXTY.TTF", 40)
 leave_render = font_leave.render("Premi Sp_azio per uscire", True, "White")
