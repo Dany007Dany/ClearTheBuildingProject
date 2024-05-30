@@ -34,7 +34,7 @@ pav_base = Pavimento(larghezza//4,0)
 fnt = pygame.font.Font("Bleeding_Cowboys.ttf", 42)
 fnt2 = pygame.font.Font("Bleeding_Cowboys.ttf", 21)
 txt_rnd = fnt.render("Da questa parte", True, "firebrick3")
-imm_frcc = pygame.image.load("CtB images\Freccia.png").convert_alpha()
+imm_frcc = pygame.image.load("CtB images/Freccia.png").convert_alpha()
 imm_ost_frcc = Ostacolo(imm_frcc, larghezza//2.5, -50)
 txt_ost = Ostacolo(txt_rnd,larghezza//1.8,pav_base.rect_pav.height // 14.5)
 txt_rnd2 = fnt2.render("Guarda i comandi premendo", True, "firebrick3")
@@ -109,7 +109,7 @@ interface_exit_pos = (larghezza - interface_x.get_width() * 3.2, altezza // 1.47
 bottone_x = interface_x.get_rect(topleft = interface_x_pos)
 bottone_exit_game = interface_exit_game.get_rect(topleft = interface_exit_pos)
 #setting_tutorial
-bottone_ost = Ostacolo(stg_img, larghezza + larghezza//9,pav_base.rect_pav.height // 13.5)
+bottone_ost = Ostacolo(stg_img, larghezza + larghezza//8.5,pav_base.rect_pav.height // 13.5)
 #lascia gioco
 font_leave = pygame.font.Font("SIXTY.TTF", 40)
 leave_render = font_leave.render("Premi Sp_azio per uscire", True, "White")
@@ -120,9 +120,9 @@ leave_render = font_leave.render("Premi Sp_azio per uscire", True, "White")
 #ciclo principale
 while True:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            exit()
+        #if event.type == pygame.QUIT:
+            #pygame.quit()
+            #exit()
             
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             pos = pygame.mouse.get_pos()
