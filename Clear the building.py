@@ -291,7 +291,7 @@ while True:
     if win:
         pygame.mixer.music.stop()
 
-        win_sound.play()
+        win_sound.play(-1)
         
         schermo.fill("Black")
         schermo.blit(imm_you_won, imm_you_won_pos)
