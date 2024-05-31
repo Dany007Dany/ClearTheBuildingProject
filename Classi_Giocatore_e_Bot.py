@@ -4,7 +4,7 @@ import sys
 
 #classe giocatore con movimento, immagine e caratteristiche varie. 
 class Giocatore:
-    def __init__(self, hSchermo, lSchermo):
+    def __init__(self, hSchermo, lSchermo, lista_ostacoli):
         
         #coordinate mappa
         self.wx = 0
@@ -12,7 +12,11 @@ class Giocatore:
         self.angolo = 0
         self.hSchermo = hSchermo
         self.lSchermo = lSchermo
-    
+
+        self.lista_ostacoli = lista_ostacoli
+        self.lista_ost_rect = []
+        for ost in self.lista_ostacoli:
+            self.lista_ost_rect.append(ost.rect)
         
 
 
@@ -67,7 +71,12 @@ class Giocatore:
         self.rect_immagine_ruotata_270.center = (lSchermo // 2 - self.rect.width // 2, hSchermo // 2 - self.rect.height // 2)
         
         #velocità di movimento
-        self.vel_gioc = 1.4
+        self.vel_gioc_w = 1.4
+        self.vel_gioc_a = 1.4
+        self.vel_gioc_s = 1.4
+        self.vel_gioc_d = 1.4
+
+
         self.vel_gioc_shift = 0.7
         self.vel_gioc_ctrl = 20.2
 
@@ -98,7 +107,7 @@ class Giocatore:
        
 
     #funzione per movimento del giocatore
-    def mov (self, rectpav, tastiera = None):
+    def mov (self, rectpav):
     #impostazione posizione ideale
         newx = self.wx
         newy = self.wy
@@ -126,17 +135,40 @@ class Giocatore:
         
         else:
             if tastiera[pygame.K_a]:
-                newx -= self.vel_gioc
+                newx -= self.vel_gioc_a
             if tastiera[pygame.K_d]:
-                newx += self.vel_gioc
+                newx += self.vel_gioc_d
             if tastiera[pygame.K_w]:
-                newy -= self.vel_gioc
+                newy -= self.vel_gioc_w
             if tastiera[pygame.K_s]:
-                newy += self.vel_gioc
+                newy += self.vel_gioc_s
 
         #contorllo ostacoli
-                
+        check_X = pygame.Rect(self.rect.x -1, self.rect.y -1, self.rect.width+2, self.rect.height+2)
+        checkINDEX = check_X.collidelist(self.lista_ost_rect)       
+        if checkINDEX != -1:
+            if newx < self.rect.x:
+                self.vel_gioc_a = 0
+            elif newx > self.rect.x:
+                self.vel_gioc_d = 0
+            print("AOOOOO")
+        elif checkINDEX == -1:
+            self.vel_gioc_a = 1.4
+            self.vel_gioc_d = 1.4
 
+
+
+        check_Y = pygame.Rect(self.rect.x -1 , self.rect.y -1, self.rect.width+2, self.rect.height+2)
+        checkINDEX = check_Y.collidelist(self.lista_ost_rect)       
+        if checkINDEX != -1:
+            if newy < self.rect.y:
+                self.vel_gioc_w = 0
+            elif newy > self.rect.y:
+                self.vel_gioc_s = 0
+        else:
+            self.vel_gioc_w = 1.4
+            self.vel_gioc_s = 1.4
+            print("EEEEE")
 
                 
                 

@@ -23,8 +23,7 @@ prog_icon = pygame.image.load("CtB images/Icon.png").convert_alpha()
 #prog_icon = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Icon.png").convert_alpha()
 pygame.display.set_icon(prog_icon)
 
-#creazione del giocatore
-giocatore1 = Giocatore(altezza, larghezza)
+
 
 #città
 imm_città = pygame.image.load("CtB images/sci_riproviamo.jpg")
@@ -86,7 +85,12 @@ ostacolo_6_muro = Ostacolo(imm_ostacolo_4_verticale, 3400, 500)
 #ostacoli
 ostacolo_1 = Ostacolo(imm_scrivaniaadangolo, 350, 400)
 
+lst_ost = [ostacolo_5_muro, ostacolo_6_muro]
+
 ostacoli = [ostacolo_1]
+
+#creazione del giocatore
+giocatore1 = Giocatore(altezza, larghezza, lst_ost)
 
 #immagine "Sei stato scoperto!"
 SSS_immagine = pygame.image.load("CtB images/SSS.jpg").convert_alpha()
