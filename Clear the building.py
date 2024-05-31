@@ -53,11 +53,12 @@ txt_ost2 = Ostacolo(txt_rnd2, larghezza + larghezza//25,pav_base.rect_pav.height
 
 
 #creazione bot
-bot1 = Bot(x = 2700, y = 300, orientamento = 0, stato = False)
+bot1 = Bot(x = 4000, y = 350, orientamento = 90, stato = False)
 bot2 = Bot(x = larghezza // 4 + pav_base.rect_pav.width // 3, y = pav_base.rect_pav.height // 14.5, orientamento = -90, stato = False)
-bot3 = Bot(x = 2300, y = 1400, orientamento = 180, stato = False)
+bot3 = Bot(x = pav_base.rect_pav.width//2 + 50, y = pav_base.rect_pav.height//2 - 50, orientamento = 90, stato = False)
 bot4 = Bot(x = 2600, y = 3700, orientamento = 90, stato = False)
-bots = [bot1, bot2, bot3, bot4]
+bot5 = Bot(x = pav_base.rect_pav.width//2 + 300, y = pav_base.rect_pav.height//2 - 50, orientamento = -90, stato = False)
+bots = [bot1, bot2, bot3, bot4,bot5]
 
 #immagini muri
 imm_ostacolo_1_orizzontale = pygame.surface.Surface((4040, 20))
@@ -205,6 +206,9 @@ while True:
 
     
     #AGIORNAMENTO SCHERMO
+    #contatore
+ 
+    
     schermo.fill(sfondo)
     
     città_ost.disegna(schermo, giocatore1.wx, giocatore1.wy)
@@ -234,7 +238,6 @@ while True:
         #ostacolo.disegna(schermo, giocatore1.wx, giocatore1.wy)
     
     
-    
 
 
     #blit dei bot
@@ -245,11 +248,12 @@ while True:
     #blit del personaggio
     giocatore1.disegna(schermo)
 
-    #contatore
     cont = 0
     for bot in bots:
         if bot.stato == True:
             cont += 1
+    
+    
 
     if game_over:
         schermo.fill("Black")
@@ -287,7 +291,8 @@ while True:
         schermo.blit(interface_exit_game, interface_exit_pos)
 
 
-    
+    if cont == len(bots): 
+        game_over = True
     
     #aggiornamenti vari e eventuali 
     pygame.display.flip()
