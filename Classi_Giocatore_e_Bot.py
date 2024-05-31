@@ -1,6 +1,8 @@
 import pygame
 import sys
 
+#Only for DEVs
+dev = False
 
 #classe giocatore con movimento, immagine e caratteristiche varie. 
 class Giocatore:
@@ -133,6 +135,7 @@ class Giocatore:
             if tastiera[pygame.K_s]:
                 newy += self.vel_gioc_ctrl
         
+       
         else:
             if tastiera[pygame.K_a]:
                 newx -= self.vel_gioc_a
@@ -142,32 +145,32 @@ class Giocatore:
                 newy -= self.vel_gioc_w
             if tastiera[pygame.K_s]:
                 newy += self.vel_gioc_s
-
         # Controllo delle collisioni con gli ostacoli
-        player_rect = self.rect.move(newx - self.wx, newy - self.wy)
-        if any(player_rect.colliderect(ost) for ost in self.lista_ost_rect):
-            # Se c'è una collisione, non aggiornare la posizione
-            newx = self.wx
-            newy = self.wy
+        if dev:
+            player_rect = self.rect.move(newx - self.wx, newy - self.wy)
+            if any(player_rect.colliderect(ost) for ost in self.lista_ost_rect):
+                # Se c'è una collisione, non aggiornare la posizione
+                newx = self.wx
+                newy = self.wy
 
-        #controllo pareti
-        # SE: somma tra new (x,y) + dimensione giocatore (x,y)
-        #è maggiore della posizione della parete destra e sotto
-        # ALLORA: non aggiornare x o y
-                
-        if newx + self.rect.width + self.rect.x > rectpav.width + self.lSchermo//4 :
-            newx = self.wx
-        if newx + self.rect.x < self.lSchermo//4:
-            newx = self.wx
-        if newy + self.rect.height + self.rect.y > rectpav.height:
-            newy = self.wy
-        if newy + self.rect.y < 0:
-            newy = self.wy
-        
+            #controllo pareti
+            # SE: somma tra new (x,y) + dimensione giocatore (x,y)
+            #è maggiore della posizione della parete destra e sotto
+            # ALLORA: non aggiornare x o y
+                    
+            if newx + self.rect.width + self.rect.x > rectpav.width + self.lSchermo//4 :
+                newx = self.wx
+            if newx + self.rect.x < self.lSchermo//4:
+                newx = self.wx
+            if newy + self.rect.height + self.rect.y > rectpav.height:
+                newy = self.wy
+            if newy + self.rect.y < 0:
+                newy = self.wy
+            
 
-        
+            
         #aggiornamento posizione
-        
+            
         self.wx = newx
         self.wy = newy
 
@@ -201,7 +204,7 @@ class Giocatore:
     
     #funzione per verificare lo stato delle collisioni del personaggio con i campi visivi
     def collisioni(self, bot):
-        return self.rect.colliderect(bot.campo_rect) 
+        if dev: return self.rect.colliderect(bot.campo_rect) 
     
 
     def confini(self, pav):

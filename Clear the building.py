@@ -16,6 +16,7 @@ larghezza = 1300
 dimensioni = (larghezza, altezza)
 schermo = pygame.display.set_mode(dimensioni)
 
+
 #personalizzazione finestra
 sfondo = ("Grey")
 pygame.display.set_caption("Clear the Building!")
@@ -64,8 +65,18 @@ imm_ostacolo_4_verticale = pygame.surface.Surface((20, 2000))
 imm_ostacolo_4_verticale.fill("Grey20")
 imm_ostacolo_5_orizzontale = pygame.surface.Surface((3500, 20))
 imm_ostacolo_5_orizzontale.fill("Grey20")
-
-
+imm_ostacolo_6_orizzontale = pygame.surface.Surface((3300,20))
+imm_ostacolo_6_orizzontale.fill("Grey20")
+imm_ostacolo_7_vericale = pygame.surface.Surface((20,800))
+imm_ostacolo_7_vericale.fill("Grey20")
+imm_ostacolo_8_orizzontale = pygame.surface.Surface((800,20))
+imm_ostacolo_8_orizzontale.fill("Grey20")
+imm_ostacolo_9_orizzontale = pygame.surface.Surface((2000,20))
+imm_ostacolo_9_orizzontale.fill("Grey20")
+imm_ostacolo_10_verticale = pygame.surface.Surface((20,800))
+imm_ostacolo_10_verticale.fill("Grey20")
+imm_ostacolo_11_orizziontale = pygame.surface.Surface((1120,20))
+imm_ostacolo_11_orizziontale.fill("lightskyblue1")
 
 #immagini arredamenti
 imm_scrivaniaadangolo = pygame.image.load("CtB images/ScrivaniaAngolo.png")
@@ -85,10 +96,17 @@ ostacolo_4_muro = Ostacolo(imm_ostacolo_2_verticale, larghezza//4 + 4000, 0)
 ostacolo_5_muro = Ostacolo(imm_ostacolo_3_orizzontale, larghezza//4, pav_base.rect_pav.height//4.9 - altezza//4)
 ostacolo_6_muro = Ostacolo(imm_ostacolo_4_verticale, 3400, 500)
 ostacolo_7_muro = Ostacolo(imm_ostacolo_5_orizzontale, pav_base.rect_pav.width//3 - 500, -altezza//2 + 2850)
+ostacolo_8_muro = Ostacolo(imm_ostacolo_6_orizzontale,pav_base.rect_pav.width//3 - 500,pav_base.rect_pav.height*3//4)
+ostacolo_9_muro = Ostacolo(imm_ostacolo_7_vericale,pav_base.rect_pav.width//3,pav_base.rect_pav.height*3//4)
+ostacolo_10_muro = Ostacolo(imm_ostacolo_8_orizzontale, larghezza//4,pav_base.rect_pav.height - 500)
+ostacolo_11_muro = Ostacolo(imm_ostacolo_9_orizzontale,1400 ,(pav_base.rect_pav.height//4.9 - altezza//4)*2)
+ostacolo_12_muro = Ostacolo(imm_ostacolo_10_verticale,pav_base.rect_pav.width-pav_base.rect_pav.width//4,pav_base.rect_pav.height - 800)
+ostacol_13_muro = Ostacolo(imm_ostacolo_11_orizziontale,pav_base.rect_pav.width-pav_base.rect_pav.width//4 +20,pav_base.rect_pav.height - 650)
+
 #ostacoli
 ostacolo_1 = Ostacolo(imm_scrivaniaadangolo, 350, 400)
 
-lst_ost = [ostacolo_5_muro, ostacolo_6_muro, ostacolo_7_muro]
+lst_ost = [ostacolo_5_muro, ostacolo_6_muro, ostacolo_7_muro, ostacolo_8_muro, ostacolo_9_muro, ostacolo_10_muro, ostacolo_11_muro, ostacolo_12_muro,ostacol_13_muro]
 
 ostacoli = [ostacolo_1]
 
@@ -197,10 +215,9 @@ while True:
     ostacolo_3_muro.disegna(schermo, giocatore1.wx + ostacolo_3_muro.rect.height, giocatore1.wy)
     ostacolo_4_muro.disegna(schermo, giocatore1.wx, giocatore1.wy)
     #blit muri interni
-    ostacolo_5_muro.disegna(schermo, giocatore1.wx, giocatore1.wy)
-    ostacolo_6_muro.disegna(schermo, giocatore1.wx, giocatore1.wy)
-    ostacolo_7_muro.disegna(schermo,giocatore1.wx, giocatore1.wy)
-    
+
+    for ostacolo in lst_ost:
+        ostacolo.disegna(schermo,giocatore1.wx,giocatore1.wy)
     
     #blit osctacoli
     #for ostacolo in ostacoli:
