@@ -61,7 +61,9 @@ imm_ostacolo_2_verticale.fill("Grey20")
 imm_ostacolo_3_orizzontale = pygame.surface.Surface((2000, 20))
 imm_ostacolo_3_orizzontale.fill("Grey20")
 imm_ostacolo_4_verticale = pygame.surface.Surface((20, 2000))
-
+imm_ostacolo_4_verticale.fill("Grey20")
+imm_ostacolo_5_orizzontale = pygame.surface.Surface((3500, 20))
+imm_ostacolo_5_orizzontale.fill("Grey20")
 
 
 
@@ -82,10 +84,11 @@ ostacolo_4_muro = Ostacolo(imm_ostacolo_2_verticale, larghezza//4 + 4000, 0)
 #muri interi
 ostacolo_5_muro = Ostacolo(imm_ostacolo_3_orizzontale, larghezza//4, pav_base.rect_pav.height//4.9 - altezza//4)
 ostacolo_6_muro = Ostacolo(imm_ostacolo_4_verticale, 3400, 500)
+ostacolo_7_muro = Ostacolo(imm_ostacolo_5_orizzontale, pav_base.rect_pav.width//3 - 500, -altezza//2 + 2850)
 #ostacoli
 ostacolo_1 = Ostacolo(imm_scrivaniaadangolo, 350, 400)
 
-lst_ost = [ostacolo_5_muro, ostacolo_6_muro]
+lst_ost = [ostacolo_5_muro, ostacolo_6_muro, ostacolo_7_muro]
 
 ostacoli = [ostacolo_1]
 
@@ -196,6 +199,7 @@ while True:
     #blit muri interni
     ostacolo_5_muro.disegna(schermo, giocatore1.wx, giocatore1.wy)
     ostacolo_6_muro.disegna(schermo, giocatore1.wx, giocatore1.wy)
+    ostacolo_7_muro.disegna(schermo,giocatore1.wx, giocatore1.wy)
     
     
     #blit osctacoli
