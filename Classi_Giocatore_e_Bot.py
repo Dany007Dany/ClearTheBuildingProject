@@ -143,21 +143,12 @@ class Giocatore:
             if tastiera[pygame.K_s]:
                 newy += self.vel_gioc_s
 
-        #contorllo ostacoli
-        check_X = pygame.Rect(self.rect.x, self.rect.y, self.rect.width, self.rect.height)
-        checkINDEX = check_X.collidelist(self.lista_ost_rect)       
-        if checkINDEX != -1:
-            newx = self.wx -2
-            newx = self.wx +2
-
-
-
-        check_Y = pygame.Rect(self.rect.x, self.rect.y, self.rect.width, self.rect.height)
-        checkINDEX2 = check_Y.collidelist(self.lista_ost_rect)       
-        if checkINDEX2 != -1:
-            newy = self.wy -2
-            newy = self.wy +2
-
+        # Controllo delle collisioni con gli ostacoli
+        player_rect = self.rect.move(newx - self.wx, newy - self.wy)
+        if any(player_rect.colliderect(ost) for ost in self.lista_ost_rect):
+            # Se c'è una collisione, non aggiornare la posizione
+            newx = self.wx
+            newy = self.wy
 
         #controllo pareti
         # SE: somma tra new (x,y) + dimensione giocatore (x,y)
