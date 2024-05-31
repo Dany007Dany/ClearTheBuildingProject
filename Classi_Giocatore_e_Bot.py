@@ -1,8 +1,8 @@
 import pygame
 import sys
 
-#Only for DEVs
-dev = False
+#Only for DEVs (True --> gli ostacoli perdono la loro funzione di impedimento e i campi visivi non funzioano)
+dev = True
 
 #classe giocatore con movimento, immagine e caratteristiche varie. 
 class Giocatore:
@@ -146,7 +146,7 @@ class Giocatore:
             if tastiera[pygame.K_s]:
                 newy += self.vel_gioc_s
         # Controllo delle collisioni con gli ostacoli
-        if dev:
+        if not dev:
             player_rect = self.rect.move(newx - self.wx, newy - self.wy)
             if any(player_rect.colliderect(ost) for ost in self.lista_ost_rect):
                 # Se c'è una collisione, non aggiornare la posizione
@@ -204,7 +204,7 @@ class Giocatore:
     
     #funzione per verificare lo stato delle collisioni del personaggio con i campi visivi
     def collisioni(self, bot):
-        if dev: return self.rect.colliderect(bot.campo_rect) 
+        if not dev: return self.rect.colliderect(bot.campo_rect) 
     
 
     def confini(self, pav):
