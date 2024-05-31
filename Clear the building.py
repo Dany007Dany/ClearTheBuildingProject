@@ -4,6 +4,7 @@ from Classi_Giocatore_e_Bot import Giocatore
 from Classi_Giocatore_e_Bot import Bot
 from Classi_Mappa_e_Ostacolo import Pavimento
 from Classi_Mappa_e_Ostacolo import Ostacolo
+from os.path import join
 pygame.init()
 
 #clock
@@ -21,14 +22,18 @@ schermo = pygame.display.set_mode(dimensioni)
 sfondo = ("Grey")
 pygame.display.set_caption("Clear the Building!")
 prog_icon = pygame.image.load("CtB images/Icon.png").convert_alpha()
-#prog_icon = pygame.image.load("/Users/dany/Downloads/Clear the Building/ClearTheBuildingProject/CtB images/Icon.png").convert_alpha()
 pygame.display.set_icon(prog_icon)
 
 
+#musics and sound effects
+music = pygame.mixer.music.load("Audio CtB/Misson Impossible - Main Theme [1 hour].mp3")
+music = pygame.mixer.music.set_volume(0.2)
+pygame.mixer.music.play()
+kill_sound = pygame.mixer.Sound(join("Audio CtB/Kill-Sound.mp3"))
+kill_sound.set_volume(0.4)
 
 #città
 imm_città = pygame.image.load("CtB images/sci_riproviamo.jpg")
-#imm_città = pygame.transform.scale(imm_città, (5000,5000))
 
 città_ost = Ostacolo(imm_città, -larghezza // 4, -altezza // 2)
 
@@ -170,13 +175,16 @@ while True:
             if bottone_exit_game.collidepoint(pos) and settings == True:
                 pygame.quit()
                 exit()
+
+    
+        
+    
         
 
        
     
     #modifiche e movimento al giocatore
     if not game_over:
-        
         giocatore1.mov(rectpav = pav_base.rect_pav)
         giocatore1.animazione()
         #collisioni
@@ -185,6 +193,8 @@ while True:
             if bot.stato == False and giocatore1.collisioni(bot):
                 game_over = True
             giocatore1.kill(bot)
+            if giocatore1.kill(bot):    
+                kill_sound.play()
         
 
         #if giocatore1.confini(pav_base):

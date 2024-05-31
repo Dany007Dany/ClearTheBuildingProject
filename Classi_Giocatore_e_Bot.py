@@ -258,6 +258,7 @@ class Giocatore:
         if tastiera[pygame.K_k]:
             if self.rect.colliderect(bot.rect_vivo):
                 bot.stato = True
+                return True
             
 
 
