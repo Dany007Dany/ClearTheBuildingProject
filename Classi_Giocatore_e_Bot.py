@@ -80,7 +80,8 @@ class Giocatore:
 
 
         self.vel_gioc_shift = 0.7
-        self.vel_gioc_ctrl = 20.2
+        self.vel_gioc_ctrl = 20.0
+
 
         #icona kill
         self.kst = False

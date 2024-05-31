@@ -23,15 +23,14 @@ sfondo = ("Grey")
 pygame.display.set_caption("Clear the Building!")
 prog_icon = pygame.image.load("CtB images/Icon.png").convert_alpha()
 pygame.display.set_icon(prog_icon)
-
+ombra = pygame.image.load("CtB images/Ombra.png").convert_alpha()
 
 #musics and sound effects
-music = pygame.mixer.music.load("Audio CtB/Misson Impossible - Main Theme [1 hour].mp3")
-music = pygame.mixer.music.set_volume(0.2)
+background_music = pygame.mixer.music.load("Audio CtB/Theme.mp3")
+background_music = pygame.mixer.music.set_volume(0.2)
+kill_sound = pygame.mixer.Sound(join("Audio CtB/Kill-Sound.mp3")) #non si sa perchè è glitchatissimo con mixer.Sound
+kill_sound.set_volume(0.2)
 pygame.mixer.music.play()
-kill_sound = pygame.mixer.Sound(join("Audio CtB/Kill-Sound.mp3"))
-kill_sound.set_volume(0.4)
-
 #città
 imm_città = pygame.image.load("CtB images/sci_riproviamo.jpg")
 
@@ -121,10 +120,17 @@ giocatore1 = Giocatore(altezza, larghezza, lst_ost)
 
 #immagine "Sei stato scoperto!"
 SSS_immagine = pygame.image.load("CtB images/SSS.jpg").convert_alpha()
+SSS_immagine = pygame.transform.scale(SSS_immagine, (800, 200))
 SSS_rect = SSS_immagine.get_rect()
-SSS_pos = (larghezza // 2 - SSS_rect.width // 2, altezza // 2 - SSS_rect.height // 2 - 200)
+SSS_pos = (larghezza // 2 - SSS_rect.width // 2, altezza // 2 - SSS_rect.height // 2 - 100)
 game_over = False
 
+#immagine "you won"!
+imm_you_won = pygame.image.load("CtB images/You_Won.png")
+imm_you_won = pygame.transform.scale(imm_you_won, (1000, 250))
+rect_you_won = imm_you_won.get_rect()
+imm_you_won_pos = (larghezza // 2 - rect_you_won.width // 2, altezza // 2 - rect_you_won.height // 2)
+win = False
 #settings
 stg_img = pygame.image.load("CtB images/Settings.png").convert_alpha()
 stg_img = pygame.transform.scale(stg_img, (80, 80))
@@ -154,6 +160,7 @@ leave_render = font_leave.render("Premi Sp_azio per uscire", True, "White")
 
 
 
+
 #ciclo principale
 while True:
     for event in pygame.event.get():
@@ -179,29 +186,35 @@ while True:
 
     
         
-    
+    cont = 0
+    for bot in bots:
+        if bot.stato == True:
+            cont += 1
         
 
-       
+    
     
     #modifiche e movimento al giocatore
     if not game_over:
         giocatore1.mov(rectpav = pav_base.rect_pav)
         giocatore1.animazione()
+        
         #collisioni
         for bot in bots:
             giocatore1.killSTAT(bots)
             if bot.stato == False and giocatore1.collisioni(bot):
                 game_over = True
+                pygame.mixer.music.stop()
+                you_lost_music = pygame.mixer.music.load("Audio CtB/Mission Failed.mp3")
+                you_lost_music = pygame.mixer.music.set_volume(0.2)
+                pygame.mixer.music.play(-1)
             giocatore1.kill(bot)
             if giocatore1.kill(bot):    
                 kill_sound.play()
         
 
-        #if giocatore1.confini(pav_base):
-        #    game_over = False
-        #else:
-        #   game_over = True
+        
+        
 
 
     
@@ -247,13 +260,24 @@ while True:
 
     #blit del personaggio
     giocatore1.disegna(schermo)
+    
+    
+    if cont == len(bots):
+        win = True
+    if win:
+        win_music = pygame.mixer.music.load("Audio CtB/Mission_Accomplished.mp3")
+        win_music = pygame.mixer.music.set_volume(0.2)
+        pygame.mixer.music.play(-1)
 
-    cont = 0
-    for bot in bots:
-        if bot.stato == True:
-            cont += 1
-    
-    
+        #NON FUNZIONA BORCO CANE
+        
+        schermo.fill("Black")
+        schermo.blit(imm_you_won, imm_you_won_pos)
+        schermo.blit(leave_render,(larghezza // 2 - leave_render.get_width() // 2, altezza // 1.3))
+        tastiera = pygame.key.get_pressed()
+        if tastiera[pygame.K_SPACE]:
+            pygame.quit()
+            exit()
 
     if game_over:
         schermo.fill("Black")
@@ -281,9 +305,15 @@ while True:
             pygame.quit()
             exit()
 
-    #blit settings
-    schermo.blit(stg_img, stg_pos) 
+        
 
+    schermo.blit(ombra, (0, 0))
+    #blit settings
+    schermo.blit(stg_img, stg_pos)
+    if not game_over and not win and not settings: 
+        font = pygame.font.Font("SIXTY.TTF", 55)
+        kills = font.render(f"Kills: {cont}", True, "White")
+        schermo.blit(kills, (10,10))  
     #blit delle impostazioni
     if settings:
         schermo.blit(interface_imm, interface_imm_pos)
@@ -291,8 +321,7 @@ while True:
         schermo.blit(interface_exit_game, interface_exit_pos)
 
 
-    if cont == len(bots): 
-        game_over = True
+    
     
     #aggiornamenti vari e eventuali 
     pygame.display.flip()
