@@ -2,7 +2,7 @@ import pygame
 import sys
 
 #Only for DEVs (True --> gli ostacoli perdono la loro funzione di impedimento e i campi visivi non funzioano)
-dev = True
+dev = False
 
 #classe giocatore con movimento, immagine e caratteristiche varie. 
 class Giocatore:
@@ -101,12 +101,14 @@ class Giocatore:
 
 
     #funzione per blit del giocatore
-    def disegna(self, schermo):
+    def disegna_gioc(self, schermo):
+        schermo.blit(self.immagine, self.rect)
+
+    def disegna_kill(self, schermo):
         if self.kst:
             schermo.blit(self.kill_icon, self.kill_icon_rect)
         if self.kst_2:
             schermo.blit(self.kill_icon_2, self.kill_icon_rect_2)
-        schermo.blit(self.immagine, self.rect)
        
 
     #funzione per movimento del giocatore

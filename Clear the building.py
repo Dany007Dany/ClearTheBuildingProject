@@ -5,10 +5,14 @@ from Classi_Giocatore_e_Bot import Bot
 from Classi_Mappa_e_Ostacolo import Pavimento
 from Classi_Mappa_e_Ostacolo import Ostacolo
 from os.path import join
+pygame.mixer.pre_init(44100, 16, 2, 4096)
 pygame.init()
-
+pygame.mixer.init()
 #clock
 clock = pygame.time.Clock()
+
+#DEVs' tool
+dev = False
 
 #creazione finestra 
 info = pygame.display.Info()
@@ -28,8 +32,12 @@ ombra = pygame.image.load("CtB images/Ombra.png").convert_alpha()
 #musics and sound effects
 background_music = pygame.mixer.music.load("Audio CtB/Theme.mp3")
 background_music = pygame.mixer.music.set_volume(0.2)
-kill_sound = pygame.mixer.Sound(join("Audio CtB/Kill-Sound.mp3")) #non si sa perchè è glitchatissimo con mixer.Sound
+kill_sound = pygame.mixer.Sound("Audio CtB/Kill-Sound.mp3")
 kill_sound.set_volume(0.2)
+
+win_sound = pygame.mixer.Sound("Audio CtB/Mission_Accomplished.mp3")
+win_sound.set_volume(0.2)
+
 pygame.mixer.music.play()
 #città
 imm_città = pygame.image.load("CtB images/sci_riproviamo.jpg")
@@ -54,10 +62,18 @@ txt_ost2 = Ostacolo(txt_rnd2, larghezza + larghezza//25,pav_base.rect_pav.height
 #creazione bot
 bot1 = Bot(x = 4000, y = 350, orientamento = 90, stato = False)
 bot2 = Bot(x = larghezza // 4 + pav_base.rect_pav.width // 3, y = pav_base.rect_pav.height // 14.5, orientamento = -90, stato = False)
-bot3 = Bot(x = pav_base.rect_pav.width//2 + 50, y = pav_base.rect_pav.height//2 - 50, orientamento = 90, stato = False)
-bot4 = Bot(x = 2600, y = 3700, orientamento = 90, stato = False)
-bot5 = Bot(x = pav_base.rect_pav.width//2 + 300, y = pav_base.rect_pav.height//2 - 50, orientamento = -90, stato = False)
-bots = [bot1, bot2, bot3, bot4,bot5]
+bot3 = Bot(x = pav_base.rect_pav.width//2 - 100, y = pav_base.rect_pav.height//2 - 50, orientamento = 90, stato = False)
+bot4 = Bot(x = 1450, y = 3700, orientamento = -90, stato = False)
+#5 e 3
+bot5 = Bot(x = pav_base.rect_pav.width//2 + 650, y = pav_base.rect_pav.height//2 - 50, orientamento = -90, stato = False)
+bot6 = Bot(x = pav_base.rect_pav.width//4 - 470, y = pav_base.rect_pav.height - 800, orientamento = 0, stato = False)
+bot7 = Bot(x = pav_base.rect_pav.width-pav_base.rect_pav.width//5 + 325, y = pav_base.rect_pav.height - 950, orientamento = 180, stato = False)
+bot8 = Bot(x = pav_base.rect_pav.width//2 + 240, y = pav_base.rect_pav.height - 780, orientamento = -90, stato = False)
+bot9 = Bot(x = 3825, y = pav_base.rect_pav.height//2, orientamento = 0, stato = False)
+bot10 = Bot(x = larghezza // 4 + pav_base.rect_pav.width*2//3 - 150, y = pav_base.rect_pav.height // 4 , orientamento = 0, stato = False)
+
+
+bots = [bot1, bot2, bot3, bot4, bot5, bot6, bot7, bot8, bot9, bot10]
 
 #immagini muri
 imm_ostacolo_1_orizzontale = pygame.surface.Surface((4040, 20))
@@ -87,9 +103,12 @@ imm_ostacolo_11_orizziontale.fill("lightskyblue1")
 imm_scrivaniaadangolo = pygame.image.load("CtB images/ScrivaniaAngolo.png")
 imm_scrivaniaadangolo = pygame.transform.scale(imm_scrivaniaadangolo, (200, 200))
 imm_scrivania = pygame.image.load("CtB images/Scrivania.png")
+imm_scrivania = pygame.transform.scale(imm_scrivania, (250,200))
+imm_scrivaniaRT = pygame.transform.rotate(imm_scrivania, 90)
 imm_pianta = pygame.image.load("CtB images/Pianta.png")
 imm_scaffale = pygame.image.load("CtB images/Scaffale.png")
 imm_tavolo = pygame.image.load("CtB images/Tavolo.png")
+imm_tavolo = pygame.transform.scale(imm_tavolo, (350,250))
 
 
 #muri esterni
@@ -106,12 +125,25 @@ ostacolo_9_muro = Ostacolo(imm_ostacolo_7_vericale,pav_base.rect_pav.width//3,pa
 ostacolo_10_muro = Ostacolo(imm_ostacolo_8_orizzontale, larghezza//4,pav_base.rect_pav.height - 500)
 ostacolo_11_muro = Ostacolo(imm_ostacolo_9_orizzontale,1400 ,(pav_base.rect_pav.height//4.9 - altezza//4)*2)
 ostacolo_12_muro = Ostacolo(imm_ostacolo_10_verticale,pav_base.rect_pav.width-pav_base.rect_pav.width//4,pav_base.rect_pav.height - 800)
-ostacol_13_muro = Ostacolo(imm_ostacolo_11_orizziontale,pav_base.rect_pav.width-pav_base.rect_pav.width//4 +20,pav_base.rect_pav.height - 650)
+ostacolo_13_muro = Ostacolo(imm_ostacolo_11_orizziontale,pav_base.rect_pav.width-pav_base.rect_pav.width//4 +20,pav_base.rect_pav.height - 650)
+#arredamenti
+ostacolo_14_pianta = Ostacolo(imm_pianta, larghezza//4,pav_base.rect_pav.height - 480)
+ostacolo_15_pianta = Ostacolo(imm_pianta, pav_base.rect_pav.width-pav_base.rect_pav.width//4 + 20,pav_base.rect_pav.height - 800)
+ostacolo_16_pianta = Ostacolo(imm_pianta,1400 - 40,(pav_base.rect_pav.height//4.9 - altezza//4)*2 - 10)
+ostacolo_17_pianta = Ostacolo(imm_pianta,3400 - 40,(pav_base.rect_pav.height//4.9 - altezza//4)*2 - 40)
+ostacolo_18_pianta = Ostacolo(imm_pianta, 3390, 2520)
+ostacolo_19_tavolo_riunioni = Ostacolo(imm_tavolo, 3700, pav_base.rect_pav.height//2 - 1050)
+ostacolo_20_tavolo_riunioni = Ostacolo(imm_tavolo,pav_base.rect_pav.width//2 + 150,pav_base.rect_pav.height//2 - 130)
+ostacolo_21_scrivania = Ostacolo(imm_scrivania,pav_base.rect_pav.width//3 - 245,pav_base.rect_pav.height*3//4 + 10)
+ostacolo_22_scrivania = Ostacolo(imm_scrivaniaRT,315,pav_base.rect_pav.height*3//4 + 260)
+ostacolo_23_tavolo_riunioni = Ostacolo(imm_tavolo,615,pav_base.rect_pav.height*3//4 + 640)
+
+
 
 #ostacoli
 ostacolo_1 = Ostacolo(imm_scrivaniaadangolo, 350, 400)
 
-lst_ost = [ostacolo_5_muro, ostacolo_6_muro, ostacolo_7_muro, ostacolo_8_muro, ostacolo_9_muro, ostacolo_10_muro, ostacolo_11_muro, ostacolo_12_muro,ostacol_13_muro]
+lst_ost = [ostacolo_5_muro, ostacolo_6_muro, ostacolo_7_muro, ostacolo_8_muro, ostacolo_9_muro, ostacolo_10_muro, ostacolo_11_muro, ostacolo_12_muro,ostacolo_13_muro, ostacolo_14_pianta, ostacolo_15_pianta, ostacolo_16_pianta, ostacolo_17_pianta, ostacolo_18_pianta, ostacolo_19_tavolo_riunioni, ostacolo_20_tavolo_riunioni, ostacolo_21_scrivania, ostacolo_22_scrivania, ostacolo_23_tavolo_riunioni]
 
 ostacoli = [ostacolo_1]
 
@@ -211,10 +243,6 @@ while True:
             giocatore1.kill(bot)
             if giocatore1.kill(bot):    
                 kill_sound.play()
-        
-
-        
-        
 
 
     
@@ -246,11 +274,7 @@ while True:
     for ostacolo in lst_ost:
         ostacolo.disegna(schermo,giocatore1.wx,giocatore1.wy)
     
-    #blit osctacoli
-    #for ostacolo in ostacoli:
-        #ostacolo.disegna(schermo, giocatore1.wx, giocatore1.wy)
-    
-    
+
 
 
     #blit dei bot
@@ -259,17 +283,15 @@ while True:
 
 
     #blit del personaggio
-    giocatore1.disegna(schermo)
+    giocatore1.disegna_gioc(schermo)
     
     
     if cont == len(bots):
         win = True
     if win:
-        win_music = pygame.mixer.music.load("Audio CtB/Mission_Accomplished.mp3")
-        win_music = pygame.mixer.music.set_volume(0.2)
-        pygame.mixer.music.play(-1)
+        pygame.mixer.music.stop()
 
-        #NON FUNZIONA BORCO CANE
+        win_sound.play()
         
         schermo.fill("Black")
         schermo.blit(imm_you_won, imm_you_won_pos)
@@ -307,7 +329,10 @@ while True:
 
         
 
-    schermo.blit(ombra, (0, 0))
+    if not dev: schermo.blit(ombra, (0, 0))
+    if not game_over and not win and not settings:
+        giocatore1.disegna_kill(schermo)
+
     #blit settings
     schermo.blit(stg_img, stg_pos)
     if not game_over and not win and not settings: 
