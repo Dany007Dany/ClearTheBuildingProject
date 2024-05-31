@@ -144,34 +144,21 @@ class Giocatore:
                 newy += self.vel_gioc_s
 
         #contorllo ostacoli
-        check_X = pygame.Rect(self.rect.x -1, self.rect.y -1, self.rect.width+2, self.rect.height+2)
+        check_X = pygame.Rect(self.rect.x, self.rect.y, self.rect.width, self.rect.height)
         checkINDEX = check_X.collidelist(self.lista_ost_rect)       
         if checkINDEX != -1:
-            if newx < self.rect.x:
-                self.vel_gioc_a = 0
-            elif newx > self.rect.x:
-                self.vel_gioc_d = 0
-            print("AOOOOO")
-        elif checkINDEX == -1:
-            self.vel_gioc_a = 1.4
-            self.vel_gioc_d = 1.4
+            newx = self.wx -2
+            newx = self.wx +2
 
 
 
-        check_Y = pygame.Rect(self.rect.x -1 , self.rect.y -1, self.rect.width+2, self.rect.height+2)
-        checkINDEX = check_Y.collidelist(self.lista_ost_rect)       
-        if checkINDEX != -1:
-            if newy < self.rect.y:
-                self.vel_gioc_w = 0
-            elif newy > self.rect.y:
-                self.vel_gioc_s = 0
-        else:
-            self.vel_gioc_w = 1.4
-            self.vel_gioc_s = 1.4
-            print("EEEEE")
+        check_Y = pygame.Rect(self.rect.x, self.rect.y, self.rect.width, self.rect.height)
+        checkINDEX2 = check_Y.collidelist(self.lista_ost_rect)       
+        if checkINDEX2 != -1:
+            newy = self.wy -2
+            newy = self.wy +2
 
-                
-                
+
         #controllo pareti
         # SE: somma tra new (x,y) + dimensione giocatore (x,y)
         #è maggiore della posizione della parete destra e sotto
